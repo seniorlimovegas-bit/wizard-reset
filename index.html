@@ -4,271 +4,441 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MW AI Concierge</title>
-
   <style>
     :root{
-      --blue: #2926EF;     /* SeniorLimo Bright Blue */
-      --gold: #C28B00;     /* Gold */
-      --text: #EAF0FF;
-      --muted: rgba(234,240,255,0.72);
-      --stroke: rgba(234,240,255,0.18);
-      --panel: rgba(8, 12, 24, 0.72);
-      --panel2: rgba(8, 12, 24, 0.55);
-      --shadow: rgba(0,0,0,0.55);
+      --blue:#2926EF;     /* SeniorLimo Bright Blue */
+      --gold:#C28B00;     /* Gold */
+      --bg:#060A12;
+      --panel: rgba(10,14,24,.78);
+      --stroke: rgba(234,240,255,.18);
+      --text:#EAF0FF;
+      --muted: rgba(234,240,255,.75);
+      --shadow: rgba(0,0,0,.55);
     }
-
-    *{ box-sizing: border-box; }
-    html, body{ height: 100%; }
-
+    *{box-sizing:border-box}
     body{
-      margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color: var(--text);
-      background:
-        radial-gradient(900px 520px at 50% 18%, rgba(41,38,239,0.40), transparent 70%),
-        radial-gradient(760px 520px at 70% 82%, rgba(194,139,0,0.16), transparent 72%),
-        linear-gradient(180deg, #050816 0%, #070b1c 45%, #040612 100%);
-      overflow-x: hidden;
+      margin:0;
+      background: radial-gradient(1200px 600px at 30% 10%, rgba(41,38,239,.25), transparent 60%),
+                  radial-gradient(900px 500px at 80% 30%, rgba(194,139,0,.18), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     }
-
-    /* Subtle star field */
-    body::before{
-      content:"";
-      position: fixed;
-      inset: 0;
-      pointer-events:none;
-      background-image:
-        radial-gradient(2px 2px at 12% 18%, rgba(255,255,255,0.55) 40%, transparent 42%),
-        radial-gradient(1px 1px at 26% 64%, rgba(255,255,255,0.35) 40%, transparent 42%),
-        radial-gradient(2px 2px at 42% 28%, rgba(255,255,255,0.45) 40%, transparent 42%),
-        radial-gradient(1px 1px at 58% 72%, rgba(255,255,255,0.30) 40%, transparent 42%),
-        radial-gradient(2px 2px at 74% 22%, rgba(255,255,255,0.40) 40%, transparent 42%),
-        radial-gradient(1px 1px at 86% 58%, rgba(255,255,255,0.25) 40%, transparent 42%);
-      opacity: 0.55;
-      filter: blur(0.2px);
-    }
-
-    /* Mystic fog below (stronger + lower) */
-    body::after{
-      content:"";
-      position: fixed;
-      left: -10%;
-      right: -10%;
-      bottom: -28%;
-      height: 62%;
-      pointer-events:none;
-      background:
-        radial-gradient(60% 70% at 50% 30%, rgba(255,255,255,0.14) 0%, transparent 62%),
-        radial-gradient(55% 60% at 25% 55%, rgba(41,38,239,0.16) 0%, transparent 68%),
-        radial-gradient(55% 60% at 75% 60%, rgba(194,139,0,0.10) 0%, transparent 70%),
-        radial-gradient(45% 55% at 50% 78%, rgba(255,255,255,0.10) 0%, transparent 68%);
-      filter: blur(20px);
-      opacity: 0.95;
-    }
-
     .wrap{
-      width: min(980px, 92vw);
+      max-width: 980px;
       margin: 0 auto;
-      padding: 26px 0 42px;
-      position: relative;
-      z-index: 1;
+      padding: 22px 16px 50px;
     }
-
-    /* CENTERED HEADER */
-    .header{
-      display: flex;
-      justify-content: center;
-      text-align: center;
-      margin-bottom: 16px;
+    .topline{
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), rgba(194,139,0,.15), var(--gold));
+      border-radius: 999px;
+      opacity:.9;
+      margin-bottom: 18px;
     }
-
-    .title{
+    header{
       display:flex;
-      flex-direction: column;
-      gap: 6px;
-      align-items: center;
+      gap:16px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom: 14px;
     }
-
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
     h1{
-      margin: 0;
-      font-size: clamp(26px, 4.2vw, 40px);
-      letter-spacing: 0.4px;
-      line-height: 1.05;
+      font-size: 34px;
+      line-height: 1.1;
+      margin:0;
+      letter-spacing:.2px;
+    }
+    .sub{
+      color:var(--muted);
+      font-size: 14px;
     }
 
-    .subline{
-      margin: 0;
+    .controls{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .chip{
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--stroke);
+      border-radius: 999px;
+      padding: 8px 10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+    .chip label{
+      font-size: 13px;
       color: var(--muted);
-      font-size: 13.5px;
-      letter-spacing: 0.2px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      user-select:none;
+      cursor:pointer;
+    }
+    input[type="checkbox"]{
+      width: 18px;
+      height: 18px;
+      accent-color: var(--blue);
+      cursor:pointer;
+    }
+    .sliderwrap{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .sliderwrap span{
+      font-size: 12px;
+      color: var(--muted);
+      min-width: 40px;
+      text-align:right;
+    }
+    input[type="range"]{
+      width: 140px;
+      cursor:pointer;
+      accent-color: var(--blue);
     }
 
     .panel{
-      background: linear-gradient(180deg, var(--panel), var(--panel2));
+      background: var(--panel);
       border: 1px solid var(--stroke);
       border-radius: 18px;
-      padding: 18px;
-      box-shadow: 0 18px 40px var(--shadow);
-      backdrop-filter: blur(10px);
+      padding: 16px;
+      box-shadow: 0 18px 60px var(--shadow);
+      margin-top: 14px;
     }
 
-    .btnGrid{
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      margin-top: 6px;
+    /* Crystal Ball */
+    .orbRow{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin: 14px 0 4px;
     }
-
-    /* Wizard-style gold/blue button */
-    .wizBtn{
-      width: 100%;
-      border: none;
-      cursor: pointer;
-      padding: 16px 18px;
-      border-radius: 16px;
-      color: #f7fbff;
-      font-size: clamp(15px, 2.1vw, 18px);
-      font-weight: 800;
-      text-align: center;
-
+    .orb{
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
       background:
-        radial-gradient(130% 120% at 50% 0%, rgba(255,255,255,0.18) 0%, transparent 55%),
-        linear-gradient(180deg, rgba(41,38,239,0.72) 0%, rgba(41,38,239,0.40) 100%);
-
-      border: 2px solid rgba(194,139,0,0.85);
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 35%),
+        radial-gradient(circle at 55% 60%, rgba(41,38,239,.40), transparent 55%),
+        radial-gradient(circle at 50% 50%, rgba(194,139,0,.22), rgba(0,0,0,.35) 62%),
+        rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.18);
       box-shadow:
-        0 10px 26px rgba(0,0,0,0.40),
-        0 0 0 1px rgba(194,139,0,0.20) inset,
-        0 0 26px rgba(194,139,0,0.22);
-
-      transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease, filter 120ms ease;
-      position: relative;
-      overflow: hidden;
+        0 0 28px rgba(41,38,239,.25),
+        0 0 40px rgba(194,139,0,.18),
+        0 24px 60px rgba(0,0,0,.55);
+      position:relative;
+      overflow:hidden;
     }
-
-    .wizBtn::before{
+    .orb::after{
       content:"";
       position:absolute;
-      inset: -60%;
-      background: conic-gradient(
-        from 180deg,
-        rgba(194,139,0,0.00),
-        rgba(194,139,0,0.28),
-        rgba(41,38,239,0.18),
-        rgba(194,139,0,0.00)
-      );
-      filter: blur(14px);
-      opacity: 0.65;
-      transition: opacity 180ms ease;
+      inset:-40%;
+      background: conic-gradient(from 180deg, rgba(41,38,239,.15), rgba(194,139,0,.12), rgba(41,38,239,.15));
+      animation: spin 6s linear infinite;
+      filter: blur(6px);
+      opacity:.7;
+    }
+    @keyframes spin{
+      to { transform: rotate(360deg); }
     }
 
-    .wizBtn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(194,139,0,0.98);
-      box-shadow:
-        0 14px 34px rgba(0,0,0,0.45),
-        0 0 0 1px rgba(194,139,0,0.22) inset,
-        0 0 34px rgba(194,139,0,0.28);
-      filter: brightness(1.03);
+    .btnRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
     }
-    .wizBtn:hover::before{ opacity: 0.85; }
-    .wizBtn:active{
-      transform: translateY(0px) scale(0.995);
-      filter: brightness(0.98);
+    button{
+      background: rgba(41,38,239,.18);
+      border: 1px solid rgba(41,38,239,.45);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight: 600;
+      letter-spacing:.2px;
+      transition: transform .05s ease, background .15s ease, border-color .15s ease;
+    }
+    button:hover{
+      background: rgba(41,38,239,.28);
+      border-color: rgba(41,38,239,.70);
+    }
+    button:active{ transform: scale(.99); }
+    button.secondary{
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--stroke);
+      font-weight: 600;
+    }
+    button.gold{
+      background: rgba(194,139,0,.18);
+      border: 1px solid rgba(194,139,0,.55);
+    }
+    button.gold:hover{
+      background: rgba(194,139,0,.26);
+      border-color: rgba(194,139,0,.80);
     }
 
-    .output{
-      margin-top: 16px;
-      background: rgba(0,0,0,0.30);
-      border: 1px solid rgba(234,240,255,0.18);
-      border-radius: 14px;
-      padding: 16px;
-      min-height: 170px;
-      line-height: 1.5;
-      font-size: 16px;
-      box-shadow: 0 10px 26px rgba(0,0,0,0.25) inset;
-      white-space: pre-line;
+    .answerTitle{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin: 10px 0 8px;
     }
-
-    .footer{
-      margin-top: 14px;
-      color: rgba(234,240,255,0.55);
+    .answerTitle .tag{
       font-size: 12px;
-      text-align: center;
+      color: var(--muted);
+      border: 1px solid var(--stroke);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
     }
-
-    @media (min-width: 720px){
-      .btnGrid{ grid-template-columns: 1fr 1fr; }
+    .answer{
+      white-space: pre-wrap;
+      line-height: 1.45;
+      font-size: 16px;
+      margin: 0;
+      color: var(--text);
+    }
+    .hint{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .warn{
+      color: rgba(255,255,255,.78);
+      font-size: 12px;
+      margin-top: 6px;
+      opacity:.9;
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <div class="header">
-      <div class="title">
+    <div class="topline"></div>
+
+    <header>
+      <div class="brand">
         <h1>MW AI Concierge</h1>
-        <p class="subline">Powered by Ability3Media</p>
+        <div class="sub">Tap a question → Mr. Wizard answers. Voice is optional.</div>
       </div>
-    </div>
+
+      <div class="controls">
+        <div class="chip">
+          <label title="Turn voice on/off">
+            <input id="voiceToggle" type="checkbox" checked />
+            Voice
+          </label>
+        </div>
+
+        <div class="chip sliderwrap" title="Voice speed">
+          <span>Rate</span>
+          <input id="rate" type="range" min="0.7" max="1.2" step="0.05" value="0.95" />
+        </div>
+
+        <div class="chip sliderwrap" title="Voice tone">
+          <span>Pitch</span>
+          <input id="pitch" type="range" min="0.7" max="1.2" step="0.05" value="0.95" />
+        </div>
+      </div>
+    </header>
 
     <div class="panel">
-      <div class="btnGrid">
-        <button class="wizBtn" id="btnMembership" type="button">
-          Freedom Wellness+ Perks
-        </button>
+      <div class="orbRow">
+        <div style="display:flex;gap:14px;align-items:center;">
+          <div class="orb" aria-hidden="true"></div>
+          <div>
+            <div style="font-weight:700;">Crystal Ball (Demo)</div>
+            <div class="warn">Voice quality depends on the device/browser voice engine. We can fine-tune rate/pitch and pick a better voice later.</div>
+          </div>
+        </div>
 
-        <button class="wizBtn" id="btnEcosystem" type="button">
-          SeniorLimo Ecosystem
-        </button>
+        <div class="btnRow">
+          <button class="secondary" id="stopBtn" type="button">Stop Voice</button>
+          <button class="gold" id="speakBtn" type="button">Speak Answer</button>
+        </div>
       </div>
 
-      <div class="output" id="output">Tap a button to see your answer here.</div>
-    </div>
+      <div class="btnRow" style="margin-top:14px;">
+        <button type="button" data-q="what">What do we do?</button>
+        <button type="button" data-q="concerns">Common concerns</button>
+        <button type="button" data-q="why">Why choose us?</button>
+        <button class="secondary" type="button" data-q="how">How it works</button>
+      </div>
 
-    <div class="footer">© 2026 Ability3Media • All Rights Reserved</div>
+      <div class="answerTitle">
+        <div class="tag" id="currentTag">Ready</div>
+        <div class="tag" id="ttsStatus">Voice: checking…</div>
+      </div>
+
+      <p class="answer" id="answer">
+I am here. Tap a button to begin.
+      </p>
+
+      <div class="hint">
+        If you want this to become “real AI chat” (not canned answers), we’ll connect this page to a backend endpoint later.
+        <br/>Important: never place your OpenAI key inside this HTML.
+      </div>
+    </div>
   </div>
 
   <script>
-    const output = document.getElementById("output");
-
+    // -----------------------------
+    // 1) Content (simple demo answers)
+    // -----------------------------
     const ANSWERS = {
-      membership: [
-        "Freedom Wellness+ is a $299 membership that includes 20 one-way rides.",
-        "",
-        "Members also receive:",
-        "• Priority booking",
-        "• Access to the Gold Deals / coupon network",
-        "• Birthday breakfast perk",
-        "• Wellness+ Credits — earn $25 in ride credits for each friend who signs up",
-        "• 10% community give-back supporting participating nonprofits and churches",
-        "",
-        "Spouse / significant other:",
-        "• A spouse or significant other may ride along with the member",
-        "",
-        "Notes:",
-        "• No household or family sharing beyond that",
-        "• Credits are issued to the member only"
-      ].join("\n"),
+      what:
+`Mr. Wizard is your MW AI Concierge.
 
-      ecosystem: [
-        "SeniorLimo is a membership-based affiliate carpool ecosystem designed to support senior mobility, local businesses, and community wellness.",
-        "",
-        "The ecosystem connects:",
-        "• Seniors who need reliable rides and meaningful member perks",
-        "• Local businesses that provide value through Gold Deals",
-        "• Nonprofits and churches supported through community give-back",
-        "",
-        "Together, these partners create a community-supported system that helps seniors stay independent while strengthening the local economy."
-      ].join("\n")
+We help people get quick, clear answers using a simple tap-to-ask system.
+This version is designed to be easy for seniors and easy for businesses:
+Tap a question → get an answer → optional voice reads it out loud.`,
+      concerns:
+`Common concerns:
+
+• “Is this hard to use?” → No. It’s built for one-tap questions.
+• “Do I need a new app?” → Not necessarily. This runs on a web page.
+• “Will it replace staff?” → No. It supports staff by handling repeat questions.
+• “Is my data safe?” → Your private keys never go in the browser. Keys belong in a secure backend.`,
+      why:
+`Why choose us:
+
+• Simple interface (tap buttons)
+• Optional voice for accessibility
+• Fast setup using a proven template
+• Built to scale across multiple locations and screens
+• Clean branding + consistent answers`,
+      how:
+`How it works:
+
+1) You tap a question button.
+2) Mr. Wizard shows the answer on screen.
+3) If Voice is ON, Mr. Wizard speaks the answer.
+4) Later: we connect this to a secure backend so answers can come from your approved business knowledge base.`
     };
 
-    function showAnswer(key){
-      output.textContent = ANSWERS[key] || "No answer found.";
+    // -----------------------------
+    // 2) Voice (Web Speech API)
+    // -----------------------------
+    const voiceToggle = document.getElementById("voiceToggle");
+    const rate = document.getElementById("rate");
+    const pitch = document.getElementById("pitch");
+    const ttsStatus = document.getElementById("ttsStatus");
+    const stopBtn = document.getElementById("stopBtn");
+    const speakBtn = document.getElementById("speakBtn");
+
+    const answerEl = document.getElementById("answer");
+    const currentTag = document.getElementById("currentTag");
+
+    let synth = null;
+    let voices = [];
+
+    function canTTS() {
+      return typeof window !== "undefined" && "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
     }
 
-    document.getElementById("btnMembership").addEventListener("click", () => showAnswer("membership"));
-    document.getElementById("btnEcosystem").addEventListener("click", () => showAnswer("ecosystem"));
+    function loadVoices() {
+      if (!canTTS()) return;
+      voices = window.speechSynthesis.getVoices() || [];
+      // Update status
+      if (voices.length) {
+        ttsStatus.textContent = "Voice: ready";
+      } else {
+        ttsStatus.textContent = "Voice: loading…";
+      }
+    }
+
+    function pickBestVoice() {
+      // We can get fancier later. For now: prefer English voices with nicer engines if available.
+      const prefer = [
+        "Siri", "Daniel", "Samantha", "Karen", "Moira", "Tessa", "Ava", "Allison"
+      ];
+      const en = voices.filter(v => (v.lang || "").toLowerCase().startsWith("en"));
+      if (!en.length) return null;
+
+      for (const p of prefer) {
+        const found = en.find(v => (v.name || "").includes(p));
+        if (found) return found;
+      }
+      return en[0];
+    }
+
+    function stopSpeaking() {
+      if (!canTTS()) return;
+      window.speechSynthesis.cancel();
+    }
+
+    function speak(text) {
+      if (!voiceToggle.checked) return;
+      if (!canTTS()) {
+        ttsStatus.textContent = "Voice: not supported";
+        return;
+      }
+
+      stopSpeaking();
+
+      const utter = new SpeechSynthesisUtterance(text);
+      const v = pickBestVoice();
+      if (v) utter.voice = v;
+
+      utter.rate = Number(rate.value || 1);
+      utter.pitch = Number(pitch.value || 1);
+
+      utter.onstart = () => { ttsStatus.textContent = "Voice: speaking…"; };
+      utter.onend = () => { ttsStatus.textContent = "Voice: ready"; };
+      utter.onerror = () => { ttsStatus.textContent = "Voice: error"; };
+
+      window.speechSynthesis.speak(utter);
+    }
+
+    // Init voice
+    if (canTTS()) {
+      synth = window.speechSynthesis;
+      loadVoices();
+      // Some browsers load voices async:
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+      setTimeout(loadVoices, 300);
+      setTimeout(loadVoices, 900);
+    } else {
+      ttsStatus.textContent = "Voice: not supported";
+      voiceToggle.checked = false;
+      voiceToggle.disabled = true;
+    }
+
+    // Controls
+    stopBtn.addEventListener("click", stopSpeaking);
+    speakBtn.addEventListener("click", () => speak(answerEl.textContent));
+
+    // -----------------------------
+    // 3) Buttons (tap-to-answer)
+    // -----------------------------
+    document.querySelectorAll("button[data-q]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const key = btn.getAttribute("data-q");
+        const txt = ANSWERS[key] || "I am here.";
+        currentTag.textContent = "Answer: " + (btn.textContent || "Selected");
+        answerEl.textContent = txt;
+
+        // Auto-speak when voice is on
+        speak(txt);
+      });
+    });
   </script>
 </body>
 </html>
