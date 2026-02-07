@@ -3,30 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mr. Wizard — Front End</title>
+  <title>Mr. Wizard</title>
 
   <style>
     :root{
       --blue: #2926EF;     /* SeniorLimo Bright Blue */
       --gold: #C28B00;     /* Gold Text */
-      --ink: #0b1020;
-      --panel: rgba(8, 12, 24, 0.72);
-      --panel2: rgba(8, 12, 24, 0.55);
       --text: #EAF0FF;
       --muted: rgba(234,240,255,0.72);
       --stroke: rgba(234,240,255,0.18);
+      --panel: rgba(8, 12, 24, 0.72);
+      --panel2: rgba(8, 12, 24, 0.55);
       --shadow: rgba(0,0,0,0.55);
     }
 
     *{ box-sizing: border-box; }
     html, body{ height: 100%; }
+
     body{
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color: var(--text);
       background:
-        radial-gradient(900px 500px at 50% 25%, rgba(41,38,239,0.35), transparent 70%),
-        radial-gradient(700px 420px at 70% 80%, rgba(194,139,0,0.18), transparent 70%),
+        radial-gradient(900px 520px at 50% 22%, rgba(41,38,239,0.38), transparent 70%),
+        radial-gradient(720px 460px at 70% 82%, rgba(194,139,0,0.16), transparent 72%),
         linear-gradient(180deg, #050816 0%, #070b1c 45%, #040612 100%);
       overflow-x: hidden;
     }
@@ -89,7 +89,7 @@
 
     h1{
       margin: 0;
-      font-size: clamp(22px, 3.6vw, 34px);
+      font-size: clamp(24px, 3.8vw, 36px);
       letter-spacing: 0.2px;
     }
 
@@ -97,18 +97,6 @@
       margin: 0;
       color: var(--muted);
       font-size: 14px;
-    }
-
-    .badge{
-      align-self: flex-start;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(41,38,239,0.22), rgba(41,38,239,0.08));
-      border: 1px solid rgba(41,38,239,0.35);
-      color: rgba(234,240,255,0.9);
-      font-size: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      white-space: nowrap;
     }
 
     .panel{
@@ -124,7 +112,7 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 14px;
-      margin-top: 14px;
+      margin-top: 6px;
     }
 
     /* Wizard-style gold/blue button */
@@ -141,9 +129,9 @@
 
       background:
         radial-gradient(130% 120% at 50% 0%, rgba(255,255,255,0.18) 0%, transparent 55%),
-        linear-gradient(180deg, rgba(41,38,239,0.70) 0%, rgba(41,38,239,0.40) 100%);
+        linear-gradient(180deg, rgba(41,38,239,0.72) 0%, rgba(41,38,239,0.40) 100%);
 
-      border: 2px solid rgba(194,139,0,0.75);
+      border: 2px solid rgba(194,139,0,0.80);
       box-shadow:
         0 10px 26px rgba(0,0,0,0.40),
         0 0 0 1px rgba(194,139,0,0.20) inset,
@@ -173,7 +161,7 @@
 
     .wizBtn:hover{
       transform: translateY(-1px);
-      border-color: rgba(194,139,0,0.95);
+      border-color: rgba(194,139,0,0.98);
       box-shadow:
         0 14px 34px rgba(0,0,0,0.45),
         0 0 0 1px rgba(194,139,0,0.22) inset,
@@ -192,16 +180,11 @@
       border: 1px solid rgba(234,240,255,0.18);
       border-radius: 14px;
       padding: 16px;
-      min-height: 150px;
-      line-height: 1.45;
+      min-height: 170px;
+      line-height: 1.5;
       font-size: 16px;
       box-shadow: 0 10px 26px rgba(0,0,0,0.25) inset;
-    }
-
-    .hint{
-      color: rgba(234,240,255,0.55);
-      font-size: 13px;
-      margin-top: 10px;
+      white-space: pre-line; /* keeps your bullet formatting */
     }
 
     .footer{
@@ -221,10 +204,9 @@
   <div class="wrap">
     <div class="header">
       <div class="title">
-        <h1>Mr. Wizard — Front End</h1>
-        <p class="subtitle">Tap a question. Answers appear below. (Style first, voice later.)</p>
+        <h1>Mr. Wizard</h1>
+        <p class="subtitle">Tap a question to learn more.</p>
       </div>
-      <div class="badge">Mystic Blue • Gold</div>
     </div>
 
     <div class="panel">
@@ -239,11 +221,7 @@
       </div>
 
       <div class="output" id="output">
-        Tap a button to see text appear here.
-      </div>
-
-      <div class="hint">
-        Note: Freedom Wellness+ is a <b>$299 membership</b> that includes <b>20 one-way rides</b>. No flat-rate inside this membership answer.
+Tap a button to see your answer here.
       </div>
     </div>
 
@@ -253,30 +231,34 @@
   <script>
     const output = document.getElementById("output");
 
-    // You can edit these answers anytime without touching the design.
     const ANSWERS = {
       membership: [
         "Freedom Wellness+ is a $299 membership that includes 20 one-way rides.",
         "",
-        "It also includes:",
-        "• Priority booking (members are served before flat-rate riders)",
-        "• A birthday breakfast perk",
+        "Members also receive:",
+        "• Priority booking",
         "• Access to the Gold Deals / coupon network",
-        "• 10% give-back support to participating nonprofits/churches",
+        "• Birthday breakfast perk",
+        "• Wellness+ Credits — earn $25 in ride credits for each friend who signs up",
+        "• 10% community give-back supporting participating nonprofits and churches",
+        "",
+        "Spouse / significant other:",
+        "• A spouse or significant other may ride along with the member",
         "",
         "Notes:",
-        "• No family sharing",
-        "• Credits are for the member only"
+        "• No household or family sharing beyond that",
+        "• Credits are issued to the member only"
       ].join("\n"),
 
       ecosystem: [
-        "SeniorLimo is a membership-based affiliate carpool ecosystem connecting seniors, local businesses, and community wellness.",
+        "SeniorLimo is a membership-based affiliate carpool ecosystem designed to support senior mobility, local businesses, and community wellness.",
         "",
-        "The ecosystem is built around:",
-        "• Senior mobility (rides for appointments, errands, and daily life)",
-        "• Membership benefits and priority booking",
-        "• Gold Deals that drive real customers to local businesses",
-        "• Community support through nonprofit/church partnerships"
+        "The ecosystem connects:",
+        "• Seniors who need reliable rides and member perks",
+        "• Local businesses that offer value through Gold Deals",
+        "• Nonprofits and churches supported through community give-back",
+        "",
+        "Together, these partners create a community-support system that helps seniors stay independent while strengthening the local economy."
       ].join("\n")
     };
 
