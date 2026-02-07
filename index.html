@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mr. Wizard</title>
+  <title>MW AI Concierge</title>
 
   <style>
     :root{
       --blue: #2926EF;     /* SeniorLimo Bright Blue */
-      --gold: #C28B00;     /* Gold Text */
+      --gold: #C28B00;     /* Gold */
       --text: #EAF0FF;
       --muted: rgba(234,240,255,0.72);
       --stroke: rgba(234,240,255,0.18);
@@ -25,8 +25,8 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color: var(--text);
       background:
-        radial-gradient(900px 520px at 50% 22%, rgba(41,38,239,0.38), transparent 70%),
-        radial-gradient(720px 460px at 70% 82%, rgba(194,139,0,0.16), transparent 72%),
+        radial-gradient(900px 520px at 50% 18%, rgba(41,38,239,0.40), transparent 70%),
+        radial-gradient(760px 520px at 70% 82%, rgba(194,139,0,0.16), transparent 72%),
         linear-gradient(180deg, #050816 0%, #070b1c 45%, #040612 100%);
       overflow-x: hidden;
     }
@@ -48,55 +48,59 @@
       filter: blur(0.2px);
     }
 
-    /* Soft mist */
+    /* Mystic fog below (stronger + lower) */
     body::after{
       content:"";
       position: fixed;
       left: -10%;
       right: -10%;
-      bottom: -25%;
-      height: 55%;
+      bottom: -28%;
+      height: 62%;
       pointer-events:none;
       background:
-        radial-gradient(60% 70% at 50% 40%, rgba(255,255,255,0.10) 0%, transparent 60%),
-        radial-gradient(55% 60% at 25% 55%, rgba(41,38,239,0.10) 0%, transparent 65%),
-        radial-gradient(55% 60% at 75% 60%, rgba(194,139,0,0.08) 0%, transparent 65%);
-      filter: blur(18px);
-      opacity: 0.85;
+        radial-gradient(60% 70% at 50% 30%, rgba(255,255,255,0.14) 0%, transparent 62%),
+        radial-gradient(55% 60% at 25% 55%, rgba(41,38,239,0.16) 0%, transparent 68%),
+        radial-gradient(55% 60% at 75% 60%, rgba(194,139,0,0.10) 0%, transparent 70%),
+        radial-gradient(45% 55% at 50% 78%, rgba(255,255,255,0.10) 0%, transparent 68%);
+      filter: blur(20px);
+      opacity: 0.95;
     }
 
     .wrap{
       width: min(980px, 92vw);
       margin: 0 auto;
-      padding: 28px 0 42px;
+      padding: 26px 0 42px;
       position: relative;
       z-index: 1;
     }
 
+    /* CENTERED HEADER */
     .header{
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 16px;
     }
 
     .title{
       display:flex;
       flex-direction: column;
       gap: 6px;
+      align-items: center;
     }
 
     h1{
       margin: 0;
-      font-size: clamp(24px, 3.8vw, 36px);
-      letter-spacing: 0.2px;
+      font-size: clamp(26px, 4.2vw, 40px);
+      letter-spacing: 0.4px;
+      line-height: 1.05;
     }
 
-    .subtitle{
+    .subline{
       margin: 0;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13.5px;
+      letter-spacing: 0.2px;
     }
 
     .panel{
@@ -124,14 +128,14 @@
       border-radius: 16px;
       color: #f7fbff;
       font-size: clamp(15px, 2.1vw, 18px);
-      font-weight: 700;
+      font-weight: 800;
       text-align: center;
 
       background:
         radial-gradient(130% 120% at 50% 0%, rgba(255,255,255,0.18) 0%, transparent 55%),
         linear-gradient(180deg, rgba(41,38,239,0.72) 0%, rgba(41,38,239,0.40) 100%);
 
-      border: 2px solid rgba(194,139,0,0.80);
+      border: 2px solid rgba(194,139,0,0.85);
       box-shadow:
         0 10px 26px rgba(0,0,0,0.40),
         0 0 0 1px rgba(194,139,0,0.20) inset,
@@ -155,7 +159,6 @@
       );
       filter: blur(14px);
       opacity: 0.65;
-      transform: rotate(0deg);
       transition: opacity 180ms ease;
     }
 
@@ -184,7 +187,7 @@
       line-height: 1.5;
       font-size: 16px;
       box-shadow: 0 10px 26px rgba(0,0,0,0.25) inset;
-      white-space: pre-line; /* keeps your bullet formatting */
+      white-space: pre-line;
     }
 
     .footer{
@@ -204,28 +207,26 @@
   <div class="wrap">
     <div class="header">
       <div class="title">
-        <h1>Mr. Wizard</h1>
-        <p class="subtitle">Tap a question to learn more.</p>
+        <h1>MW AI Concierge</h1>
+        <p class="subline">Powered by Ability3Media</p>
       </div>
     </div>
 
     <div class="panel">
       <div class="btnGrid">
         <button class="wizBtn" id="btnMembership" type="button">
-          What comes with my Freedom Wellness+ membership?
+          Freedom Wellness+ Perks
         </button>
 
         <button class="wizBtn" id="btnEcosystem" type="button">
-          What is the SeniorLimo Ecosystem?
+          SeniorLimo Ecosystem
         </button>
       </div>
 
-      <div class="output" id="output">
-Tap a button to see your answer here.
-      </div>
+      <div class="output" id="output">Tap a button to see your answer here.</div>
     </div>
 
-    <div class="footer">© 2026 Mr. Wizard • All Rights Reserved</div>
+    <div class="footer">© 2026 Ability3Media • All Rights Reserved</div>
   </div>
 
   <script>
@@ -254,11 +255,11 @@ Tap a button to see your answer here.
         "SeniorLimo is a membership-based affiliate carpool ecosystem designed to support senior mobility, local businesses, and community wellness.",
         "",
         "The ecosystem connects:",
-        "• Seniors who need reliable rides and member perks",
-        "• Local businesses that offer value through Gold Deals",
+        "• Seniors who need reliable rides and meaningful member perks",
+        "• Local businesses that provide value through Gold Deals",
         "• Nonprofits and churches supported through community give-back",
         "",
-        "Together, these partners create a community-support system that helps seniors stay independent while strengthening the local economy."
+        "Together, these partners create a community-supported system that helps seniors stay independent while strengthening the local economy."
       ].join("\n")
     };
 
