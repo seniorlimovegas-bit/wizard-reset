@@ -6,439 +6,354 @@
   <title>MW AI Concierge</title>
   <style>
     :root{
-      --blue:#2926EF;     /* SeniorLimo Bright Blue */
-      --gold:#C28B00;     /* Gold */
+      --blue:#2926EF;
+      --gold:#C28B00;
       --bg:#060A12;
       --panel: rgba(10,14,24,.78);
       --stroke: rgba(234,240,255,.18);
       --text:#EAF0FF;
-      --muted: rgba(234,240,255,.75);
+      --muted: rgba(234,240,255,.72);
       --shadow: rgba(0,0,0,.55);
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      background: radial-gradient(1200px 600px at 30% 10%, rgba(41,38,239,.25), transparent 60%),
-                  radial-gradient(900px 500px at 80% 30%, rgba(194,139,0,.18), transparent 60%),
-                  var(--bg);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 30% 10%, rgba(41,38,239,.25), transparent 60%),
+        radial-gradient(900px 500px at 70% 90%, rgba(194,139,0,.18), transparent 60%),
+        linear-gradient(180deg, #050812, #060A12 30%, #050812);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
     }
     .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 22px 16px 50px;
+      width:min(980px, 100%);
     }
-    .topline{
-      height: 3px;
-      background: linear-gradient(90deg, var(--gold), rgba(194,139,0,.15), var(--gold));
-      border-radius: 999px;
-      opacity:.9;
-      margin-bottom: 18px;
+    .title{
+      text-align:center;
+      font-size:clamp(28px, 4vw, 44px);
+      font-weight:800;
+      letter-spacing:.4px;
+      margin:8px 0 6px;
     }
-    header{
-      display:flex;
-      gap:16px;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom: 14px;
-    }
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-    h1{
-      font-size: 34px;
-      line-height: 1.1;
-      margin:0;
-      letter-spacing:.2px;
-    }
-    .sub{
+    .subtitle{
+      text-align:center;
       color:var(--muted);
-      font-size: 14px;
+      margin:0 0 18px;
+      font-weight:500;
     }
-
-    .controls{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .chip{
-      background: rgba(255,255,255,.06);
-      border: 1px solid var(--stroke);
-      border-radius: 999px;
-      padding: 8px 10px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      box-shadow: 0 10px 30px var(--shadow);
-    }
-    .chip label{
-      font-size: 13px;
-      color: var(--muted);
-      display:flex;
-      gap:8px;
-      align-items:center;
-      user-select:none;
-      cursor:pointer;
-    }
-    input[type="checkbox"]{
-      width: 18px;
-      height: 18px;
-      accent-color: var(--blue);
-      cursor:pointer;
-    }
-    .sliderwrap{
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-    .sliderwrap span{
-      font-size: 12px;
-      color: var(--muted);
-      min-width: 40px;
-      text-align:right;
-    }
-    input[type="range"]{
-      width: 140px;
-      cursor:pointer;
-      accent-color: var(--blue);
-    }
-
-    .panel{
-      background: var(--panel);
-      border: 1px solid var(--stroke);
-      border-radius: 18px;
-      padding: 16px;
-      box-shadow: 0 18px 60px var(--shadow);
-      margin-top: 14px;
-    }
-
-    /* Crystal Ball */
-    .orbRow{
-      display:flex;
-      gap:16px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      margin: 14px 0 4px;
-    }
-    .orb{
-      width: 78px;
-      height: 78px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 35%),
-        radial-gradient(circle at 55% 60%, rgba(41,38,239,.40), transparent 55%),
-        radial-gradient(circle at 50% 50%, rgba(194,139,0,.22), rgba(0,0,0,.35) 62%),
-        rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.18);
-      box-shadow:
-        0 0 28px rgba(41,38,239,.25),
-        0 0 40px rgba(194,139,0,.18),
-        0 24px 60px rgba(0,0,0,.55);
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      box-shadow: 0 18px 40px var(--shadow);
+      padding:18px;
       position:relative;
       overflow:hidden;
     }
-    .orb::after{
+    .card:before{
       content:"";
       position:absolute;
-      inset:-40%;
-      background: conic-gradient(from 180deg, rgba(41,38,239,.15), rgba(194,139,0,.12), rgba(41,38,239,.15));
-      animation: spin 6s linear infinite;
-      filter: blur(6px);
-      opacity:.7;
+      inset:-2px;
+      border-radius:18px;
+      padding:2px;
+      background: linear-gradient(90deg, rgba(194,139,0,.55), rgba(41,38,239,.55));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events:none;
+      opacity:.75;
     }
-    @keyframes spin{
-      to { transform: rotate(360deg); }
-    }
-
-    .btnRow{
+    .row{
       display:flex;
-      gap:10px;
+      gap:14px;
       flex-wrap:wrap;
-      margin-top: 10px;
+      justify-content:center;
+      margin-bottom:14px;
     }
-    button{
-      background: rgba(41,38,239,.18);
-      border: 1px solid rgba(41,38,239,.45);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 12px;
-      cursor:pointer;
-      font-weight: 600;
+    .btn{
+      appearance:none;
+      border:1px solid rgba(194,139,0,.65);
+      background: linear-gradient(180deg, rgba(41,38,239,.55), rgba(41,38,239,.25));
+      color:var(--text);
+      font-weight:800;
       letter-spacing:.2px;
-      transition: transform .05s ease, background .15s ease, border-color .15s ease;
+      padding:14px 18px;
+      border-radius:14px;
+      min-width:min(420px, 100%);
+      cursor:pointer;
+      transition: transform .08s ease, filter .12s ease;
+      box-shadow: 0 10px 22px rgba(0,0,0,.35);
+      font-size:18px;
     }
-    button:hover{
-      background: rgba(41,38,239,.28);
-      border-color: rgba(41,38,239,.70);
-    }
-    button:active{ transform: scale(.99); }
-    button.secondary{
-      background: rgba(255,255,255,.06);
-      border: 1px solid var(--stroke);
-      font-weight: 600;
-    }
-    button.gold{
-      background: rgba(194,139,0,.18);
-      border: 1px solid rgba(194,139,0,.55);
-    }
-    button.gold:hover{
-      background: rgba(194,139,0,.26);
-      border-color: rgba(194,139,0,.80);
-    }
+    .btn:active{ transform: translateY(1px); }
+    .btn:hover{ filter: brightness(1.06); }
 
-    .answerTitle{
+    .toolbar{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:flex-start;
+      flex-wrap:wrap;
+      margin:8px 0 12px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.04);
+      border:1px solid var(--stroke);
+      color:var(--muted);
+      font-weight:600;
+    }
+    .switch{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+      user-select:none;
+    }
+    input[type="checkbox"]{
+      width:18px;height:18px;
+      accent-color: var(--blue);
+    }
+    .log{
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.22);
+      border-radius:14px;
+      padding:14px;
+      min-height:140px;
+      line-height:1.5;
+      white-space:pre-wrap;
+    }
+    .msg{ margin:0 0 10px; }
+    .who{ font-weight:900; }
+    .muted{ color:var(--muted); }
+
+    .chatbar{
       display:flex;
       gap:10px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      margin: 10px 0 8px;
+      margin-top:12px;
     }
-    .answerTitle .tag{
-      font-size: 12px;
-      color: var(--muted);
-      border: 1px solid var(--stroke);
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.05);
+    .chatbar input{
+      flex:1;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      font-size:16px;
+      outline:none;
     }
-    .answer{
-      white-space: pre-wrap;
-      line-height: 1.45;
-      font-size: 16px;
-      margin: 0;
-      color: var(--text);
+    .chatbar button{
+      padding:12px 16px;
+      border-radius:12px;
+      border:1px solid rgba(41,38,239,.6);
+      background: rgba(41,38,239,.35);
+      color:var(--text);
+      font-weight:800;
+      cursor:pointer;
     }
-    .hint{
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .warn{
-      color: rgba(255,255,255,.78);
-      font-size: 12px;
-      margin-top: 6px;
-      opacity:.9;
+    .footer{
+      text-align:center;
+      color: rgba(234,240,255,.45);
+      margin-top:14px;
+      font-size:13px;
     }
   </style>
 </head>
-
 <body>
   <div class="wrap">
-    <div class="topline"></div>
+    <div class="title">MW AI Concierge</div>
+    <div class="subtitle">Powered by Ability3Media</div>
 
-    <header>
-      <div class="brand">
-        <h1>MW AI Concierge</h1>
-        <div class="sub">Tap a question → Mr. Wizard answers. Voice is optional.</div>
+    <div class="card">
+      <div class="row">
+        <button class="btn" id="btnFreedom">Freedom Wellness+ Perks</button>
+        <button class="btn" id="btnEcosystem">SeniorLimo Ecosystem</button>
       </div>
 
-      <div class="controls">
-        <div class="chip">
-          <label title="Turn voice on/off">
-            <input id="voiceToggle" type="checkbox" checked />
-            Voice
-          </label>
+      <div class="toolbar">
+        <div class="pill">
+          <span class="who">Wizard:</span>
+          <span id="statusText" class="muted">Ready.</span>
         </div>
 
-        <div class="chip sliderwrap" title="Voice speed">
-          <span>Rate</span>
-          <input id="rate" type="range" min="0.7" max="1.2" step="0.05" value="0.95" />
-        </div>
-
-        <div class="chip sliderwrap" title="Voice tone">
-          <span>Pitch</span>
-          <input id="pitch" type="range" min="0.7" max="1.2" step="0.05" value="0.95" />
-        </div>
-      </div>
-    </header>
-
-    <div class="panel">
-      <div class="orbRow">
-        <div style="display:flex;gap:14px;align-items:center;">
-          <div class="orb" aria-hidden="true"></div>
-          <div>
-            <div style="font-weight:700;">Crystal Ball (Demo)</div>
-            <div class="warn">Voice quality depends on the device/browser voice engine. We can fine-tune rate/pitch and pick a better voice later.</div>
-          </div>
-        </div>
-
-        <div class="btnRow">
-          <button class="secondary" id="stopBtn" type="button">Stop Voice</button>
-          <button class="gold" id="speakBtn" type="button">Speak Answer</button>
-        </div>
+        <label class="switch pill" title="Toggle voice on/off">
+          <input type="checkbox" id="voiceToggle" checked />
+          <span>Voice</span>
+        </label>
       </div>
 
-      <div class="btnRow" style="margin-top:14px;">
-        <button type="button" data-q="what">What do we do?</button>
-        <button type="button" data-q="concerns">Common concerns</button>
-        <button type="button" data-q="why">Why choose us?</button>
-        <button class="secondary" type="button" data-q="how">How it works</button>
+      <div class="log" id="log"></div>
+
+      <div class="chatbar">
+        <input id="input" placeholder="Ask Mr. Wizard..." />
+        <button id="send">Send</button>
       </div>
 
-      <div class="answerTitle">
-        <div class="tag" id="currentTag">Ready</div>
-        <div class="tag" id="ttsStatus">Voice: checking…</div>
-      </div>
-
-      <p class="answer" id="answer">
-I am here. Tap a button to begin.
-      </p>
-
-      <div class="hint">
-        If you want this to become “real AI chat” (not canned answers), we’ll connect this page to a backend endpoint later.
-        <br/>Important: never place your OpenAI key inside this HTML.
-      </div>
+      <div class="footer">© 2026 Ability3Media · All Rights Reserved</div>
     </div>
   </div>
 
-  <script>
-    // -----------------------------
-    // 1) Content (simple demo answers)
-    // -----------------------------
-    const ANSWERS = {
-      what:
-`Mr. Wizard is your MW AI Concierge.
+<script>
+  // =========================
+  // CONFIG
+  // =========================
+  // If you have a backend/worker endpoint later, put it here:
+  // Example: const API_URL = "https://your-worker.workers.dev/api/chat";
+  const API_URL = ""; // leave blank for demo mode
 
-We help people get quick, clear answers using a simple tap-to-ask system.
-This version is designed to be easy for seniors and easy for businesses:
-Tap a question → get an answer → optional voice reads it out loud.`,
-      concerns:
-`Common concerns:
+  // Demo answers (so you can SEE it working even without AI wired)
+  const DEMO = {
+    "Freedom Wellness+ Perks": [
+      "Freedom Wellness+ includes priority support, member perks, and community give-back.",
+      "Members get a simple, consistent experience — built for seniors, not tech experts.",
+      "This is designed to support mobility, independence, and local wellness."
+    ].join("\n\n"),
+    "SeniorLimo Ecosystem": [
+      "SeniorLimo is a membership-based affiliate carpool ecosystem designed to support senior mobility, local businesses, and community wellness.",
+      "The ecosystem connects:",
+      "• Seniors who need reliable rides and meaningful member perks",
+      "• Local businesses that provide value through Gold Deals",
+      "• Nonprofits and churches see support through community give-back",
+      "",
+      "Together, these partners create a community-supported system that helps seniors stay independent while strengthening the local economy."
+    ].join("\n")
+  };
 
-• “Is this hard to use?” → No. It’s built for one-tap questions.
-• “Do I need a new app?” → Not necessarily. This runs on a web page.
-• “Will it replace staff?” → No. It supports staff by handling repeat questions.
-• “Is my data safe?” → Your private keys never go in the browser. Keys belong in a secure backend.`,
-      why:
-`Why choose us:
+  // =========================
+  // UI HELPERS
+  // =========================
+  const logEl = document.getElementById("log");
+  const statusEl = document.getElementById("statusText");
+  const voiceToggle = document.getElementById("voiceToggle");
+  const inputEl = document.getElementById("input");
+  const sendBtn = document.getElementById("send");
 
-• Simple interface (tap buttons)
-• Optional voice for accessibility
-• Fast setup using a proven template
-• Built to scale across multiple locations and screens
-• Clean branding + consistent answers`,
-      how:
-`How it works:
+  function addMsg(who, text){
+    const p = document.createElement("p");
+    p.className = "msg";
+    p.innerHTML = `<span class="who">${who}:</span> ${escapeHtml(text)}`;
+    logEl.appendChild(p);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
 
-1) You tap a question button.
-2) Mr. Wizard shows the answer on screen.
-3) If Voice is ON, Mr. Wizard speaks the answer.
-4) Later: we connect this to a secure backend so answers can come from your approved business knowledge base.`
-    };
+  function escapeHtml(str){
+    return String(str)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
 
-    // -----------------------------
-    // 2) Voice (Web Speech API)
-    // -----------------------------
-    const voiceToggle = document.getElementById("voiceToggle");
-    const rate = document.getElementById("rate");
-    const pitch = document.getElementById("pitch");
-    const ttsStatus = document.getElementById("ttsStatus");
-    const stopBtn = document.getElementById("stopBtn");
-    const speakBtn = document.getElementById("speakBtn");
+  // =========================
+  // VOICE (Browser TTS)
+  // =========================
+  function speak(text){
+    if(!voiceToggle.checked) return;
+    if(!("speechSynthesis" in window)) return;
 
-    const answerEl = document.getElementById("answer");
-    const currentTag = document.getElementById("currentTag");
+    try{
+      window.speechSynthesis.cancel(); // stop previous
+      const u = new SpeechSynthesisUtterance(text);
 
-    let synth = null;
-    let voices = [];
+      // Basic softening (still depends on device voices)
+      u.rate = 0.95;
+      u.pitch = 1.0;
+      u.volume = 1.0;
 
-    function canTTS() {
-      return typeof window !== "undefined" && "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
+      // Try to pick a nicer English voice if available
+      const voices = window.speechSynthesis.getVoices() || [];
+      const preferred = voices.find(v => /en/i.test(v.lang) && /Siri|Premium|Enhanced/i.test(v.name))
+                    || voices.find(v => /en/i.test(v.lang))
+                    || null;
+      if(preferred) u.voice = preferred;
+
+      window.speechSynthesis.speak(u);
+    }catch(e){
+      // ignore
+    }
+  }
+
+  // Some browsers load voices async
+  if("speechSynthesis" in window){
+    window.speechSynthesis.onvoiceschanged = () => {};
+  }
+
+  // =========================
+  // ASK WIZARD
+  // =========================
+  async function askWizard(prompt){
+    statusEl.textContent = "Thinking...";
+    addMsg("You", prompt);
+
+    // DEMO MODE (no API wired yet)
+    if(!API_URL){
+      const lower = prompt.toLowerCase();
+      let answer = "I’m here. Ask me about Freedom Wellness+ or the SeniorLimo Ecosystem.";
+      if(lower.includes("freedom")) answer = DEMO["Freedom Wellness+ Perks"];
+      if(lower.includes("ecosystem") || lower.includes("seniorlimo")) answer = DEMO["SeniorLimo Ecosystem"];
+
+      addMsg("Wizard", answer);
+      speak(answer);
+      statusEl.textContent = "Ready.";
+      return;
     }
 
-    function loadVoices() {
-      if (!canTTS()) return;
-      voices = window.speechSynthesis.getVoices() || [];
-      // Update status
-      if (voices.length) {
-        ttsStatus.textContent = "Voice: ready";
-      } else {
-        ttsStatus.textContent = "Voice: loading…";
-      }
-    }
-
-    function pickBestVoice() {
-      // We can get fancier later. For now: prefer English voices with nicer engines if available.
-      const prefer = [
-        "Siri", "Daniel", "Samantha", "Karen", "Moira", "Tessa", "Ava", "Allison"
-      ];
-      const en = voices.filter(v => (v.lang || "").toLowerCase().startsWith("en"));
-      if (!en.length) return null;
-
-      for (const p of prefer) {
-        const found = en.find(v => (v.name || "").includes(p));
-        if (found) return found;
-      }
-      return en[0];
-    }
-
-    function stopSpeaking() {
-      if (!canTTS()) return;
-      window.speechSynthesis.cancel();
-    }
-
-    function speak(text) {
-      if (!voiceToggle.checked) return;
-      if (!canTTS()) {
-        ttsStatus.textContent = "Voice: not supported";
-        return;
-      }
-
-      stopSpeaking();
-
-      const utter = new SpeechSynthesisUtterance(text);
-      const v = pickBestVoice();
-      if (v) utter.voice = v;
-
-      utter.rate = Number(rate.value || 1);
-      utter.pitch = Number(pitch.value || 1);
-
-      utter.onstart = () => { ttsStatus.textContent = "Voice: speaking…"; };
-      utter.onend = () => { ttsStatus.textContent = "Voice: ready"; };
-      utter.onerror = () => { ttsStatus.textContent = "Voice: error"; };
-
-      window.speechSynthesis.speak(utter);
-    }
-
-    // Init voice
-    if (canTTS()) {
-      synth = window.speechSynthesis;
-      loadVoices();
-      // Some browsers load voices async:
-      window.speechSynthesis.onvoiceschanged = loadVoices;
-      setTimeout(loadVoices, 300);
-      setTimeout(loadVoices, 900);
-    } else {
-      ttsStatus.textContent = "Voice: not supported";
-      voiceToggle.checked = false;
-      voiceToggle.disabled = true;
-    }
-
-    // Controls
-    stopBtn.addEventListener("click", stopSpeaking);
-    speakBtn.addEventListener("click", () => speak(answerEl.textContent));
-
-    // -----------------------------
-    // 3) Buttons (tap-to-answer)
-    // -----------------------------
-    document.querySelectorAll("button[data-q]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const key = btn.getAttribute("data-q");
-        const txt = ANSWERS[key] || "I am here.";
-        currentTag.textContent = "Answer: " + (btn.textContent || "Selected");
-        answerEl.textContent = txt;
-
-        // Auto-speak when voice is on
-        speak(txt);
+    // API MODE
+    try{
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type":"application/json" },
+        body: JSON.stringify({ message: prompt })
       });
-    });
-  </script>
+
+      const data = await res.json().catch(() => ({}));
+      const answer = data.reply || data.text || data.answer || "I didn’t get a reply from the server.";
+      addMsg("Wizard", answer);
+      speak(answer);
+    }catch(err){
+      addMsg("Wizard", "Server error. If you’re in demo mode, leave API_URL blank.");
+    }finally{
+      statusEl.textContent = "Ready.";
+    }
+  }
+
+  // =========================
+  // BUTTONS + CHAT
+  // =========================
+  document.getElementById("btnFreedom").addEventListener("click", () => {
+    askWizard("Freedom Wellness+ Perks");
+  });
+
+  document.getElementById("btnEcosystem").addEventListener("click", () => {
+    askWizard("SeniorLimo Ecosystem");
+  });
+
+  sendBtn.addEventListener("click", () => {
+    const text = inputEl.value.trim();
+    if(!text) return;
+    inputEl.value = "";
+    askWizard(text);
+  });
+
+  inputEl.addEventListener("keydown", (e) => {
+    if(e.key === "Enter"){
+      sendBtn.click();
+    }
+  });
+
+  // Start message
+  addMsg("Wizard", "I am here. Tap a button or ask me a question.");
+  speak("I am here. Tap a button or ask me a question.");
+</script>
 </body>
 </html>
