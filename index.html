@@ -1,245 +1,250 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MW AI Concierge — LIVE TEST</title>
-    
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MW AI Concierge™</title>
   <style>
     :root{
-      --blue:#2926EF;  /* SeniorLimo Bright Blue */
-      --gold:#C28B00;  /* Gold */
-      --bg:#060A12;
-      --panel: rgba(10,14,24,.78);
-      --stroke: rgba(234,240,255,.18);
-      --text:#EAF0FF;
-      --muted: rgba(234,240,255,.75);
-      --shadow: rgba(0,0,0,.55);
+      --bg:#050612;
+      --bg2:#070a1a;
+      --panel:rgba(10,14,30,.70);
+      --panel2:rgba(12,18,38,.70);
+      --stroke:rgba(120,140,255,.20);
+      --stroke2:rgba(120,140,255,.28);
+      --glow:rgba(41,38,239,.45); /* SeniorLimo blue-ish */
+      --text:#e9ecff;
+      --muted:rgba(233,236,255,.70);
+      --btn1:#1a1f46;
+      --btn2:#0f1331;
+      --accent:#2926EF;
+      --accent2:#3a38ff;
+      --gold:#C28B00;
     }
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
       background:
-        radial-gradient(1200px 600px at 30% 10%, rgba(41,38,239,.25), transparent 60%),
-        radial-gradient(900px 500px at 70% 90%, rgba(194,139,0,.18), transparent 55%),
-        linear-gradient(180deg, #050816 0%, #04060F 40%, #03040A 100%);
-      overflow-x: hidden;
+        radial-gradient(1200px 800px at 50% 0%, rgba(41,38,239,.25), transparent 55%),
+        radial-gradient(900px 700px at 10% 35%, rgba(58,56,255,.14), transparent 60%),
+        radial-gradient(900px 700px at 90% 35%, rgba(58,56,255,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:28px 16px 30px;
     }
 
     .wrap{
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 30px 16px 40px;
+      width:min(1050px, 100%);
     }
 
-    .hero{
-      text-align: center;
-      padding: 12px 0 20px;
+    header{
+      text-align:center;
+      margin-bottom:18px;
     }
-    .hero h1{
-      margin: 0;
-      font-size: clamp(28px, 4vw, 44px);
-      letter-spacing: .5px;
+    h1{
+      margin:0;
+      font-weight:800;
+      letter-spacing:.4px;
+      font-size:clamp(28px, 3.2vw, 44px);
     }
-    .hero .sub{
-      margin-top: 6px;
-      color: rgba(234,240,255,.70);
-      font-size: 14px;
-    }
-
-    .panel{
-      background: var(--panel);
-      border: 1px solid var(--stroke);
-      border-radius: 22px;
-      box-shadow: 0 20px 60px var(--shadow);
-      padding: 18px;
+    .sub{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:14px;
     }
 
-    .top-actions{
-      display: grid;
+    .shell{
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(10,14,30,.60), rgba(8,10,24,.55));
+      box-shadow: 0 0 0 1px rgba(0,0,0,.25), 0 22px 70px rgba(0,0,0,.45);
+      padding:18px;
+    }
+
+    .topBtns{
+      display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 16px;
+      gap:14px;
+      margin-bottom:14px;
     }
-
-    .btn{
-      appearance: none;
-      border: 1px solid rgba(194,139,0,.55);
-      background: linear-gradient(180deg, rgba(41,38,239,.40), rgba(41,38,239,.22));
-      color: var(--text);
-      border-radius: 14px;
-      padding: 14px 14px;
-      font-weight: 700;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 8px 22px rgba(0,0,0,.35);
-      transition: transform .06s ease, filter .15s ease;
+    .bigBtn{
+      border:1px solid var(--stroke2);
+      border-radius:14px;
+      background: linear-gradient(180deg, rgba(26,31,70,.95), rgba(15,19,49,.92));
+      color:var(--text);
+      padding:14px 14px;
+      font-weight:700;
+      font-size:15px;
+      cursor:pointer;
+      transition: transform .08s ease, border-color .12s ease, box-shadow .12s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,.25);
+      text-align:center;
     }
-    .btn:active{ transform: translateY(1px); }
-    .btn:hover{ filter: brightness(1.08); }
+    .bigBtn:hover{ border-color: rgba(120,140,255,.45); box-shadow: 0 0 0 3px rgba(41,38,239,.12), 0 10px 28px rgba(0,0,0,.32); }
+    .bigBtn:active{ transform: translateY(1px); }
 
-    .status-row{
+    .controls{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+    .pill{
+      border:1px solid var(--stroke2);
+      background: rgba(10,14,30,.55);
+      border-radius:999px;
+      padding:10px 12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      min-height:44px;
+    }
+    .label{
+      color:var(--muted);
+      font-weight:600;
+      letter-spacing:.2px;
+    }
+    .status{
+      font-weight:700;
+      color: #b9c0ff;
+    }
+    .toggle{
       display:flex;
       align-items:center;
-      gap: 12px;
-      margin: 10px 0 14px;
-      flex-wrap: wrap;
+      gap:10px;
+      user-select:none;
     }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--stroke);
-      background: rgba(0,0,0,.18);
-      color: rgba(234,240,255,.92);
-      font-weight: 650;
-    }
-
-    .toggle{
-      display:inline-flex;
-      align-items:center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--stroke);
-      background: rgba(0,0,0,.18);
-      user-select: none;
-    }
-
     .toggle input{ transform: scale(1.1); }
 
-    .chat{
-      border: 1px solid rgba(234,240,255,.14);
-      border-radius: 16px;
-      background: rgba(0,0,0,.16);
-      padding: 14px;
-      min-height: 240px;
-      max-height: 520px;
-      overflow: auto;
+    .chatBox{
+      border:1px solid var(--stroke);
+      background: rgba(4,6,16,.35);
+      border-radius:16px;
+      padding:14px;
+      min-height:320px;
+      max-height:420px;
+      overflow:auto;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
     }
 
-    .msg{
-      margin: 10px 0;
-      line-height: 1.45;
-      white-space: pre-wrap;
+    .line{
+      margin:0 0 10px 0;
+      line-height:1.45;
+      font-size:16px;
+      white-space:pre-wrap;
     }
     .who{
-      font-weight: 800;
-      margin-right: 6px;
+      font-weight:800;
+      margin-right:6px;
     }
-    .who.you{ color: rgba(234,240,255,.95); }
-    .who.wiz{ color: rgba(234,240,255,.95); }
+    .who.wiz{ color:#d7dbff; }
+    .who.you{ color:#b9c0ff; }
 
-    .input-row{
-      display:flex;
-      gap: 10px;
-      margin-top: 12px;
+    .divider{
+      height:1px;
+      background: rgba(120,140,255,.12);
+      margin:12px 0 12px;
     }
-    .input-row input{
-      flex:1;
-      padding: 14px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(234,240,255,.16);
-      background: rgba(0,0,0,.20);
+
+    .composer{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:12px;
+      align-items:center;
+    }
+    .input{
+      width:100%;
+      border-radius:14px;
+      border:1px solid var(--stroke);
+      background: rgba(10,14,30,.55);
       color: var(--text);
-      outline: none;
-      font-size: 16px;
+      padding:14px 14px;
+      font-size:16px;
+      outline:none;
     }
-    .input-row input::placeholder{ color: rgba(234,240,255,.45); }
+    .input:focus{ border-color: rgba(120,140,255,.45); box-shadow: 0 0 0 3px rgba(41,38,239,.14); }
 
     .send{
-      padding: 14px 18px;
-      border-radius: 14px;
-      border: 1px solid rgba(41,38,239,.55);
-      background: linear-gradient(180deg, rgba(41,38,239,.50), rgba(41,38,239,.28));
-      color: var(--text);
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(0,0,0,.35);
+      border:none;
+      border-radius:14px;
+      background: linear-gradient(180deg, rgba(58,56,255,.95), rgba(41,38,239,.95));
+      color: #fff;
+      font-weight:800;
+      padding:14px 18px;
+      font-size:15px;
+      cursor:pointer;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.25), 0 12px 28px rgba(0,0,0,.35);
+      transition: transform .08s ease, filter .12s ease;
+      min-width:92px;
     }
-    .send:disabled{
-      opacity: .55;
-      cursor: not-allowed;
-    }
+    .send:hover{ filter: brightness(1.05); }
+    .send:active{ transform: translateY(1px); }
 
     footer{
       text-align:center;
-      margin-top: 12px;
-      color: rgba(234,240,255,.55);
-      font-size: 12px;
+      margin-top:14px;
+      color: rgba(233,236,255,.55);
+      font-size:12.5px;
     }
 
-    @media (max-width: 720px){
-      .top-actions{ grid-template-columns: 1fr; }
-      .wrap{ padding-top: 22px; }
+    @media (max-width:760px){
+      .topBtns{ grid-template-columns: 1fr; }
+      .chatBox{ max-height: 360px; }
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <div class="hero">
-      <h1>MW AI Concierge</h1>
-      <div class="sub">Powered by Ability3Media — v1000</div>
-    </div>
+    <header>
+      <h1>MW AI Concierge™</h1>
+      <div class="sub">Powered by Ability3Media™</div>
+    </header>
 
-    <div class="panel">
-      <div class="top-actions">
-        <button class="btn" id="btnPerks">Freedom Pass Wellness+ Perks</button>
-        <button class="btn" id="btnEco">SeniorLimo Ecosystem</button>
+    <div class="shell">
+      <div class="topBtns">
+        <button class="bigBtn" id="btnWellness">Freedom Pass Wellness+ Perks</button>
+        <button class="bigBtn" id="btnEcosystem">SeniorLimo Ecosystem</button>
       </div>
 
-      <div class="status-row">
-        <div class="pill" id="statusPill"><span class="who wiz">Wizard:</span> Ready.</div>
+      <div class="controls">
+        <div class="pill">
+          <div class="label">Wizard:</div>
+          <div class="status" id="wizardStatus">Ready.</div>
+        </div>
 
-        <label class="toggle" title="When Voice is on, Wizard will read answers out loud.">
-          <input type="checkbox" id="voiceToggle" />
-          <span>Voice</span>
-        </label>
+        <div class="pill toggle">
+          <input id="voiceToggle" type="checkbox" />
+          <label for="voiceToggle" class="label">Voice</label>
+        </div>
       </div>
 
-      <div class="chat" id="chat"></div>
+      <div class="chatBox" id="chatBox" aria-live="polite"></div>
 
-      <div class="input-row">
-        <input id="userInput" type="text" placeholder="Tap a button or ask me a question..." autocomplete="off" />
+      <div class="composer">
+        <input class="input" id="userInput" placeholder="Tap a button or ask me a question..." />
         <button class="send" id="sendBtn">Send</button>
       </div>
 
-      <footer>© 2026 Ability3Media · All Rights Reserved · v1000</footer>
+      <footer>© 2026 Ability3Media • All Rights Reserved</footer>
     </div>
   </div>
 
   <script>
-    /*
-      RULES:
-      - Layout/colors must not change.
-      - Language lives ONLY in CONTENT (single source of truth).
-      - Voice reads ONLY what is displayed. No improvising.
-    */
-
-    const chatEl = document.getElementById("chat");
-    const inputEl = document.getElementById("userInput");
-    const sendBtn = document.getElementById("sendBtn");
-    const voiceToggle = document.getElementById("voiceToggle");
-
-    const btnPerks = document.getElementById("btnPerks");
-    const btnEco = document.getElementById("btnEco");
-
-    voiceToggle.checked = false;
-
-    const CONTENT = {
-      perks: {
-        label: "Freedom Pass Wellness+ Perks",
-        title: "Freedom Pass Wellness+™ — Core Perks",
-        body:
+    /***********************
+     *  CONTENT (EDIT HERE)
+     ***********************/
+    const PRESET = {
+      wellnessTitle: "Freedom Pass Wellness+™ — Core Perks",
+      wellnessBody:
 `Freedom Pass Wellness+™ — $299 per month
 
 • 20 one-way rides included
@@ -253,141 +258,167 @@
 • Emergency contact & wellness safeguard
 
 One platform membership.
-No flat-fee ride model.`
-      },
+No flat-fee ride model.`,
 
-      ecosystem: {
-        label: "SeniorLimo Ecosystem",
-        title: "The SeniorLimo Ecosystem — Business Benefits",
-        body:
-`The SeniorLimo Ecosystem connects active seniors with local businesses through transportation, concierge guidance, and Gold Deals™ Action Coupons designed to drive real behavior.
+      ecoTitle: "The SeniorLimo Ecosystem — Business Benefits",
+      ecoBody:
+`SeniorLimo Ecosystem — Business Benefits
 
-Gold Deals™ are NOT weak discounts.
-Minimum value range: 15%–50% (depending on the business and item).
+• Businesses partner into the SeniorLimo community platform
+• Gold Deals™ drives action-based offers seniors actually use
+• Freedom Pass Wellness+™ members become repeat customers
+• Concierge support helps convert “interest” into real visits
+• Local goodwill + community wellness positioning
+• Ongoing visibility inside the SeniorLimo rider experience
 
-These are strategic “blowout” offers using:
-• slow days
-• unused capacity
-• excess inventory
-• specials businesses already want to move
-
-Examples:
-• Restaurants: 30% off slow-time lunch • second entrée 50% off • free dessert with meal
-• Salons/Services: 25%–50% off slow-day appointments • bundle blowouts on unused slots
-• Retail: 30%–50% off discontinued/seasonal items • end-of-season blowouts
-• Markets: overstock bundle specials • senior-only weekly deals
-
-Why businesses love it:
-• consistent senior foot traffic
-• repeat customers (seniors are loyal)
-• concierge reminders that drive action
-• community trust and goodwill
-
-Bottom line:
-Businesses stop chasing customers — SeniorLimo delivers them.`
-      },
-
-      fallback: {
-        title: "Quick Help",
-        body:
-`For now, tap one of the buttons above, or ask about:
-• Freedom Pass Wellness+ perks
-• The SeniorLimo ecosystem for businesses`
-      }
+Ask me what part you want to explore next.`
     };
 
-    function appendMessage(role, text){
-      const row = document.createElement("div");
-      row.className = "msg";
+    /***********************
+     *  UI + LOGIC
+     ***********************/
+    const chatBox = document.getElementById("chatBox");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const voiceToggle = document.getElementById("voiceToggle");
+    const wizardStatus = document.getElementById("wizardStatus");
 
-      const who = document.createElement("span");
-      who.className = "who " + (role === "you" ? "you" : "wiz");
-      who.textContent = role === "you" ? "You:" : "Wizard:";
+    // Caps the chat log for typed questions so it never becomes infinite.
+    const MAX_CHAT_LINES = 22;
 
-      const body = document.createElement("span");
-      body.textContent = " " + text;
-
-      row.appendChild(who);
-      row.appendChild(body);
-      chatEl.appendChild(row);
-      chatEl.scrollTop = chatEl.scrollHeight;
+    function setStatus(text){
+      wizardStatus.textContent = text;
     }
 
     function speak(text){
-      try{
-        if(!voiceToggle.checked) return;
-        if(!("speechSynthesis" in window)) return;
+      if (!voiceToggle.checked) return;
+      if (!("speechSynthesis" in window)) return;
 
-        const synth = window.speechSynthesis;
-        synth.cancel();
+      window.speechSynthesis.cancel(); // stop any previous speech
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = 1;
+      u.pitch = 1;
+      u.volume = 1;
+      window.speechSynthesis.speak(u);
+    }
 
-        const u = new SpeechSynthesisUtterance(text);
-        u.rate = 0.92;
-        u.pitch = 1.0;
-        u.volume = 1.0;
+    function scrollToBottom(){
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
-        const voices = synth.getVoices ? synth.getVoices() : [];
-        const preferred =
-          voices.find(v => /en-US/i.test(v.lang) && /Siri|Daniel|Samantha|Karen|Google/i.test(v.name)) ||
-          voices.find(v => /en-US/i.test(v.lang)) ||
-          voices.find(v => /en/i.test(v.lang)) ||
-          voices[0];
+    function addLine(who, text){
+      const p = document.createElement("p");
+      p.className = "line";
 
-        if(preferred) u.voice = preferred;
-        synth.speak(u);
-      }catch(e){
-        // never break the app
+      const span = document.createElement("span");
+      span.className = "who " + (who === "Wizard" ? "wiz" : "you");
+      span.textContent = who + ":";
+
+      p.appendChild(span);
+      p.appendChild(document.createTextNode(" " + text));
+      chatBox.appendChild(p);
+    }
+
+    function addDivider(){
+      const d = document.createElement("div");
+      d.className = "divider";
+      chatBox.appendChild(d);
+    }
+
+    function clearPanel(){
+      // This is the “stop infinite scroll” move for preset buttons.
+      chatBox.innerHTML = "";
+    }
+
+    function trimChatIfNeeded(){
+      const nodes = Array.from(chatBox.childNodes);
+      // count only message lines and dividers; keep it simple
+      if (nodes.length <= MAX_CHAT_LINES) return;
+      const removeCount = nodes.length - MAX_CHAT_LINES;
+      for (let i = 0; i < removeCount; i++){
+        chatBox.removeChild(chatBox.firstChild);
       }
     }
 
-    if("speechSynthesis" in window){
-      window.speechSynthesis.onvoiceschanged = () => {};
+    function showPreset(title, body){
+      // Presets should REPLACE the entire window every time.
+      clearPanel();
+      addLine("Wizard", "I am here. Tap a button or ask me a question.");
+      addLine("You", title.replace("™", "")); // mirror the button label vibe if you want
+      addLine("Wizard", title);
+      addDivider();
+      addLine("Wizard", body);
+      scrollToBottom();
+      speak(title + ". " + body);
+      setStatus("Ready.");
     }
 
-    function handleWizardAnswer(title, body){
-      const answerText = `${title}\n\n${body}`;
-      appendMessage("wizard", answerText);
-      speak(answerText);
+    function answerTypedQuestion(q){
+      // Typed questions can behave like chat, but capped so it never grows forever.
+      const cleanQ = q.trim();
+      if (!cleanQ) return;
+
+      setStatus("Thinking...");
+      addLine("You", cleanQ);
+
+      // Minimal “brain” behavior:
+      // - If question looks like it matches a preset, return that
+      // - Otherwise return a short concierge-style response
+      let response = "";
+      const qLower = cleanQ.toLowerCase();
+
+      if (qLower.includes("wellness") || qLower.includes("299") || qLower.includes("perks")){
+        response = PRESET.wellnessTitle + "\n\n" + PRESET.wellnessBody;
+      } else if (qLower.includes("ecosystem") || qLower.includes("gold deals") || qLower.includes("business")){
+        response = PRESET.ecoTitle + "\n\n" + PRESET.ecoBody;
+      } else {
+        response =
+`Got it. Here are the two fastest options:
+
+1) Tap “Freedom Pass Wellness+ Perks” for member benefits
+2) Tap “SeniorLimo Ecosystem” for business benefits
+
+Or tell me exactly what you want written/cleaned up, and I’ll format it into short, readable bullet points.`;
+      }
+
+      setTimeout(() => {
+        setStatus("Ready.");
+        addLine("Wizard", response);
+        trimChatIfNeeded();
+        scrollToBottom();
+        speak(response);
+      }, 250);
     }
 
-    btnPerks.addEventListener("click", () => {
-      appendMessage("you", CONTENT.perks.label);
-      handleWizardAnswer(CONTENT.perks.title, CONTENT.perks.body);
+    // Wire up buttons
+    document.getElementById("btnWellness").addEventListener("click", () => {
+      showPreset(PRESET.wellnessTitle, PRESET.wellnessBody);
     });
 
-    btnEco.addEventListener("click", () => {
-      appendMessage("you", CONTENT.ecosystem.label);
-      handleWizardAnswer(CONTENT.ecosystem.title, CONTENT.ecosystem.body);
+    document.getElementById("btnEcosystem").addEventListener("click", () => {
+      showPreset(PRESET.ecoTitle, PRESET.ecoBody);
     });
 
+    // Send button + Enter key
     function handleSend(){
-      const q = (inputEl.value || "").trim();
-      if(!q) return;
-
-      appendMessage("you", q);
-      inputEl.value = "";
-
-      const lower = q.toLowerCase();
-
-      if(lower.includes("perk") || lower.includes("wellness") || lower.includes("freedom") || lower.includes("299") || lower.includes("ride")){
-        handleWizardAnswer(CONTENT.perks.title, CONTENT.perks.body);
-        return;
-      }
-
-      if(lower.includes("ecosystem") || lower.includes("business") || lower.includes("gold deal") || lower.includes("coupon") || lower.includes("seniorlimo")){
-        handleWizardAnswer(CONTENT.ecosystem.title, CONTENT.ecosystem.body);
-        return;
-      }
-
-      handleWizardAnswer(CONTENT.fallback.title, CONTENT.fallback.body);
+      answerTypedQuestion(userInput.value);
+      userInput.value = "";
+      userInput.focus();
     }
 
     sendBtn.addEventListener("click", handleSend);
-    inputEl.addEventListener("keydown", (e) => {
-      if(e.key === "Enter") handleSend();
+
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter"){
+        e.preventDefault();
+        handleSend();
+      }
     });
 
-    appendMessage("wizard", "I am here. Tap a button or ask me a question.");
+    // Initial screen
+    clearPanel();
+    addLine("Wizard", "I am here. Tap a button or ask me a question.");
+    scrollToBottom();
   </script>
 </body>
 </html>
