@@ -1,359 +1,350 @@
-html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MW AI Concierge</title>
+
   <style>
     :root{
-      --blue:#2926EF;
-      --gold:#C28B00;
+      --blue:#2926EF;   /* SeniorLimo Bright Blue */
+      --gold:#C28B00;   /* Gold */
       --bg:#060A12;
       --panel: rgba(10,14,24,.78);
       --stroke: rgba(234,240,255,.18);
       --text:#EAF0FF;
-      --muted: rgba(234,240,255,.72);
+      --muted: rgba(234,240,255,.75);
       --shadow: rgba(0,0,0,.55);
     }
-    *{box-sizing:border-box}
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
+      color: var(--text);
       background:
         radial-gradient(1200px 600px at 30% 10%, rgba(41,38,239,.25), transparent 60%),
-        radial-gradient(900px 500px at 70% 90%, rgba(194,139,0,.18), transparent 60%),
-        linear-gradient(180deg, #050812, #060A12 30%, #050812);
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
+        radial-gradient(900px 500px at 70% 20%, rgba(194,139,0,.18), transparent 60%),
+        radial-gradient(1200px 800px at 50% 110%, rgba(0,0,0,.75), transparent 60%),
+        var(--bg);
+      padding: 28px 18px 36px;
     }
+
     .wrap{
-      width:min(980px, 100%);
+      max-width: 980px;
+      margin: 0 auto;
     }
+
     .title{
       text-align:center;
-      font-size:clamp(28px, 4vw, 44px);
-      font-weight:800;
-      letter-spacing:.4px;
-      margin:8px 0 6px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      font-size: clamp(28px, 4vw, 44px);
+      margin: 6px 0 2px;
     }
     .subtitle{
       text-align:center;
-      color:var(--muted);
-      margin:0 0 18px;
-      font-weight:500;
+      color: var(--muted);
+      margin: 0 0 18px;
+      font-size: 14px;
     }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--stroke);
-      border-radius:18px;
-      box-shadow: 0 18px 40px var(--shadow);
-      padding:18px;
-      position:relative;
-      overflow:hidden;
-    }
-    .card:before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      border-radius:18px;
-      padding:2px;
-      background: linear-gradient(90deg, rgba(194,139,0,.55), rgba(41,38,239,.55));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events:none;
-      opacity:.75;
-    }
-    .row{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin-bottom:14px;
-    }
-    .btn{
-      appearance:none;
-      border:1px solid rgba(194,139,0,.65);
-      background: linear-gradient(180deg, rgba(41,38,239,.55), rgba(41,38,239,.25));
-      color:var(--text);
-      font-weight:800;
-      letter-spacing:.2px;
-      padding:14px 18px;
-      border-radius:14px;
-      min-width:min(420px, 100%);
-      cursor:pointer;
-      transition: transform .08s ease, filter .12s ease;
-      box-shadow: 0 10px 22px rgba(0,0,0,.35);
-      font-size:18px;
-    }
-    .btn:active{ transform: translateY(1px); }
-    .btn:hover{ filter: brightness(1.06); }
 
-    .toolbar{
+    .panel{
+      background: linear-gradient(180deg, rgba(20,24,40,.72), rgba(10,14,24,.72));
+      border: 1px solid var(--stroke);
+      border-radius: 18px;
+      box-shadow: 0 20px 60px var(--shadow);
+      padding: 18px;
+    }
+
+    .btnRow{
       display:flex;
-      gap:12px;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .pillBtn{
+      appearance:none;
+      border: 2px solid rgba(194,139,0,.65);
+      background: linear-gradient(180deg, rgba(41,38,239,.25), rgba(41,38,239,.08));
+      color: var(--text);
+      padding: 14px 16px;
+      border-radius: 14px;
+      min-width: min(420px, 100%);
+      font-weight: 700;
+      letter-spacing: .2px;
+      cursor: pointer;
+      transition: transform .08s ease, filter .08s ease;
+    }
+    .pillBtn:active{ transform: scale(.99); }
+    .pillBtn:hover{ filter: brightness(1.05); }
+
+    .statusRow{
+      display:flex;
+      gap: 12px;
       align-items:center;
       justify-content:flex-start;
-      flex-wrap:wrap;
-      margin:8px 0 12px;
+      margin: 10px 0 12px;
+      flex-wrap: wrap;
     }
-    .pill{
+
+    .badge{
       display:inline-flex;
       align-items:center;
-      gap:10px;
-      padding:10px 12px;
-      border-radius:999px;
-      background: rgba(255,255,255,.04);
-      border:1px solid var(--stroke);
-      color:var(--muted);
-      font-weight:600;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid var(--stroke);
+      color: var(--muted);
+      font-weight: 700;
     }
-    .switch{
+
+    .toggle{
       display:inline-flex;
       align-items:center;
-      gap:8px;
-      cursor:pointer;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid var(--stroke);
       user-select:none;
     }
-    input[type="checkbox"]{
-      width:18px;height:18px;
+    .toggle input{
+      width: 18px;
+      height: 18px;
       accent-color: var(--blue);
     }
-    .log{
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.22);
-      border-radius:14px;
-      padding:14px;
-      min-height:140px;
-      line-height:1.5;
-      white-space:pre-wrap;
-    }
-    .msg{ margin:0 0 10px; }
-    .who{ font-weight:900; }
-    .muted{ color:var(--muted); }
+    .toggle span{ color: var(--muted); font-weight: 700; }
 
-    .chatbar{
+    .chatBox{
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      border-radius: 14px;
+      padding: 14px;
+      min-height: 260px;
+      max-height: 420px;
+      overflow:auto;
+      line-height: 1.45;
+    }
+
+    .msg{
+      margin: 10px 0;
+      white-space: pre-wrap;
+    }
+    .who{
+      font-weight: 900;
+      margin-right: 6px;
+    }
+    .wizard .who{ color: rgba(234,240,255,.95); }
+    .user .who{ color: rgba(234,240,255,.75); }
+
+    .inputRow{
       display:flex;
-      gap:10px;
-      margin-top:12px;
+      gap: 10px;
+      margin-top: 12px;
     }
-    .chatbar input{
+    .inputRow input{
       flex:1;
-      padding:12px 12px;
-      border-radius:12px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.04);
-      color:var(--text);
-      font-size:16px;
-      outline:none;
+      padding: 14px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      outline: none;
+      font-size: 16px;
     }
-    .chatbar button{
-      padding:12px 16px;
-      border-radius:12px;
-      border:1px solid rgba(41,38,239,.6);
-      background: rgba(41,38,239,.35);
-      color:var(--text);
-      font-weight:800;
-      cursor:pointer;
+    .inputRow button{
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(41,38,239,.55);
+      background: rgba(41,38,239,.20);
+      color: var(--text);
+      font-weight: 800;
+      cursor: pointer;
     }
+    .inputRow button:active{ transform: scale(.99); }
+
     .footer{
       text-align:center;
-      color: rgba(234,240,255,.45);
-      margin-top:14px;
-      font-size:13px;
+      color: rgba(234,240,255,.55);
+      margin-top: 14px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 520px){
+      .pillBtn{ min-width: 100%; }
+      .inputRow{ flex-direction: column; }
+      .inputRow button{ width: 100%; }
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="title">MW AI Concierge</div>
     <div class="subtitle">Powered by Ability3Media</div>
 
-    <div class="card">
-      <div class="row">
-        <button class="btn" id="btnFreedom">Freedom Wellness+ Perks</button>
-        <button class="btn" id="btnEcosystem">SeniorLimo Ecosystem</button>
+    <div class="panel">
+      <div class="btnRow">
+        <button class="pillBtn" id="btnWellness">Freedom Wellness+ Perks</button>
+        <button class="pillBtn" id="btnEcosystem">SeniorLimo Ecosystem</button>
       </div>
 
-      <div class="toolbar">
-        <div class="pill">
-          <span class="who">Wizard:</span>
-          <span id="statusText" class="muted">Ready.</span>
-        </div>
+      <div class="statusRow">
+        <div class="badge" id="statusBadge"><strong>Wizard:</strong> Ready.</div>
 
-        <label class="switch pill" title="Toggle voice on/off">
-          <input type="checkbox" id="voiceToggle" checked />
+        <label class="toggle">
+          <input type="checkbox" id="voiceToggle" />
           <span>Voice</span>
         </label>
       </div>
 
-      <div class="log" id="log"></div>
+      <div class="chatBox" id="chat"></div>
 
-      <div class="chatbar">
-        <input id="input" placeholder="Ask Mr. Wizard..." />
-        <button id="send">Send</button>
+      <div class="inputRow">
+        <input id="userInput" type="text" placeholder="Tap a button or ask me a question…" />
+        <button id="sendBtn">Send</button>
       </div>
 
       <div class="footer">© 2026 Ability3Media · All Rights Reserved</div>
     </div>
   </div>
 
-<script>
-  // =========================
-  // CONFIG
-  // =========================
-  // If you have a backend/worker endpoint later, put it here:
-  // Example: const API_URL = "https://your-worker.workers.dev/api/chat";
-  const API_URL = ""; // leave blank for demo mode
+  <script>
+    // ===========
+    // 1) YOUR FULL BUTTON CONTENT (this is what got “deleted” before)
+    //    Replace the text below with the EXACT book wording when ready.
+    // ===========
 
-  // Demo answers (so you can SEE it working even without AI wired)
-  const DEMO = {
-    "Freedom Wellness+ Perks": [
-      "Freedom Wellness+ includes priority support, member perks, and community give-back.",
-      "Members get a simple, consistent experience — built for seniors, not tech experts.",
-      "This is designed to support mobility, independence, and local wellness."
-    ].join("\n\n"),
-    "SeniorLimo Ecosystem": [
-      "SeniorLimo is a membership-based affiliate carpool ecosystem designed to support senior mobility, local businesses, and community wellness.",
-      "The ecosystem connects:",
-      "• Seniors who need reliable rides and meaningful member perks",
-      "• Local businesses that provide value through Gold Deals",
-      "• Nonprofits and churches see support through community give-back",
-      "",
-      "Together, these partners create a community-supported system that helps seniors stay independent while strengthening the local economy."
-    ].join("\n")
-  };
+    const CONTENT = {
+      wellness: `Freedom Wellness+ includes priority support, member perks, and community give-back.
 
-  // =========================
-  // UI HELPERS
-  // =========================
-  const logEl = document.getElementById("log");
-  const statusEl = document.getElementById("statusText");
-  const voiceToggle = document.getElementById("voiceToggle");
-  const inputEl = document.getElementById("input");
-  const sendBtn = document.getElementById("send");
+Key perks (replace with your exact book text):
+• Priority booking and faster support
+• Built for seniors — simple, consistent experience
+• Member-only perks and partner benefits
+• Community give-back support (nonprofits / churches)
+• Mobility-focused wellness and independence
 
-  function addMsg(who, text){
-    const p = document.createElement("p");
-    p.className = "msg";
-    p.innerHTML = `<span class="who">${who}:</span> ${escapeHtml(text)}`;
-    logEl.appendChild(p);
-    logEl.scrollTop = logEl.scrollHeight;
-  }
+NOTE: If you want this to show the $299 price, add it exactly how you want here.`,
+      ecosystem: `SeniorLimo is a membership-based affiliate carpool ecosystem designed to support senior mobility, local businesses, and community wellness.
 
-  function escapeHtml(str){
-    return String(str)
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
+The ecosystem connects:
+• Seniors who need reliable rides and meaningful member perks
+• Local businesses that provide value through Gold Deals
+• Nonprofits and churches supported through community give-back
 
-  // =========================
-  // VOICE (Browser TTS)
-  // =========================
-  function speak(text){
-    if(!voiceToggle.checked) return;
-    if(!("speechSynthesis" in window)) return;
+Together, these partners create a community-supported system that helps seniors stay independent while strengthening the local economy.`
+    };
 
-    try{
-      window.speechSynthesis.cancel(); // stop previous
-      const u = new SpeechSynthesisUtterance(text);
+    // ===========
+    // 2) CHAT RENDERING
+    // ===========
+    const chatEl = document.getElementById("chat");
+    const inputEl = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const voiceToggle = document.getElementById("voiceToggle");
 
-      // Basic softening (still depends on device voices)
-      u.rate = 0.95;
-      u.pitch = 1.0;
-      u.volume = 1.0;
+    function addMessage(role, text){
+      const div = document.createElement("div");
+      div.className = "msg " + (role === "wizard" ? "wizard" : "user");
+      div.innerHTML = `<span class="who">${role === "wizard" ? "Wizard:" : "You:"}</span>${escapeHtml(text)}`;
+      chatEl.appendChild(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
 
-      // Try to pick a nicer English voice if available
+      if (role === "wizard") speakIfEnabled(text);
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
+    // ===========
+    // 3) VOICE (SpeechSynthesis)
+    // ===========
+    function speakIfEnabled(text){
+      if (!voiceToggle.checked) return;
+      if (typeof window === "undefined") return;
+      if (!("speechSynthesis" in window)) return;
+
+      // Stop any current speaking, then speak the latest
+      window.speechSynthesis.cancel();
+
+      const utter = new SpeechSynthesisUtterance(text);
+
+      // Try to pick a smoother voice (Safari iOS varies a lot)
       const voices = window.speechSynthesis.getVoices() || [];
-      const preferred = voices.find(v => /en/i.test(v.lang) && /Siri|Premium|Enhanced/i.test(v.name))
-                    || voices.find(v => /en/i.test(v.lang))
-                    || null;
-      if(preferred) u.voice = preferred;
+      const preferred =
+        voices.find(v => /Siri|Enhanced|Premium/i.test(v.name) && /en/i.test(v.lang)) ||
+        voices.find(v => /en/i.test(v.lang)) ||
+        voices[0];
 
-      window.speechSynthesis.speak(u);
-    }catch(e){
-      // ignore
-    }
-  }
+      if (preferred) utter.voice = preferred;
 
-  // Some browsers load voices async
-  if("speechSynthesis" in window){
-    window.speechSynthesis.onvoiceschanged = () => {};
-  }
+      // Tuning (you can adjust these)
+      utter.rate = 0.95;   // slower = smoother
+      utter.pitch = 0.95;  // slightly lower = “less chipmunk”
+      utter.volume = 1.0;
 
-  // =========================
-  // ASK WIZARD
-  // =========================
-  async function askWizard(prompt){
-    statusEl.textContent = "Thinking...";
-    addMsg("You", prompt);
-
-    // DEMO MODE (no API wired yet)
-    if(!API_URL){
-      const lower = prompt.toLowerCase();
-      let answer = "I’m here. Ask me about Freedom Wellness+ or the SeniorLimo Ecosystem.";
-      if(lower.includes("freedom")) answer = DEMO["Freedom Wellness+ Perks"];
-      if(lower.includes("ecosystem") || lower.includes("seniorlimo")) answer = DEMO["SeniorLimo Ecosystem"];
-
-      addMsg("Wizard", answer);
-      speak(answer);
-      statusEl.textContent = "Ready.";
-      return;
+      window.speechSynthesis.speak(utter);
     }
 
-    // API MODE
-    try{
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type":"application/json" },
-        body: JSON.stringify({ message: prompt })
-      });
+    // iOS needs this sometimes to load voices
+    window.speechSynthesis?.getVoices?.();
 
-      const data = await res.json().catch(() => ({}));
-      const answer = data.reply || data.text || data.answer || "I didn’t get a reply from the server.";
-      addMsg("Wizard", answer);
-      speak(answer);
-    }catch(err){
-      addMsg("Wizard", "Server error. If you’re in demo mode, leave API_URL blank.");
-    }finally{
-      statusEl.textContent = "Ready.";
+    // ===========
+    // 4) BUTTON ACTIONS (this is the exact fix you asked for)
+    // ===========
+    document.getElementById("btnWellness").addEventListener("click", () => {
+      addMessage("wizard", CONTENT.wellness);
+    });
+
+    document.getElementById("btnEcosystem").addEventListener("click", () => {
+      addMessage("wizard", CONTENT.ecosystem);
+    });
+
+    // ===========
+    // 5) TYPED QUESTIONS (simple router)
+    // ===========
+    function routeQuestion(q){
+      const s = q.toLowerCase();
+
+      // very basic routing — we can expand later
+      if (s.includes("freedom") || s.includes("wellness") || s.includes("perks")) return CONTENT.wellness;
+      if (s.includes("ecosystem") || s.includes("seniorlimo")) return CONTENT.ecosystem;
+
+      return `I can help with Freedom Wellness+ and the SeniorLimo Ecosystem right now.
+Try tapping a button, or ask:
+• “What is Freedom Wellness+?”
+• “What is the SeniorLimo Ecosystem?”`;
     }
-  }
 
-  // =========================
-  // BUTTONS + CHAT
-  // =========================
-  document.getElementById("btnFreedom").addEventListener("click", () => {
-    askWizard("Freedom Wellness+ Perks");
-  });
+    function send(){
+      const text = (inputEl.value || "").trim();
+      if (!text) return;
+      addMessage("user", text);
+      inputEl.value = "";
 
-  document.getElementById("btnEcosystem").addEventListener("click", () => {
-    askWizard("SeniorLimo Ecosystem");
-  });
-
-  sendBtn.addEventListener("click", () => {
-    const text = inputEl.value.trim();
-    if(!text) return;
-    inputEl.value = "";
-    askWizard(text);
-  });
-
-  inputEl.addEventListener("keydown", (e) => {
-    if(e.key === "Enter"){
-      sendBtn.click();
+      const reply = routeQuestion(text);
+      addMessage("wizard", reply);
     }
-  });
 
-  // Start message
-  addMsg("Wizard", "I am here. Tap a button or ask me a question.");
-  speak("I am here. Tap a button or ask me a question.");
-</script>
+    sendBtn.addEventListener("click", send);
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") send();
+    });
+
+    // ===========
+    // 6) INITIAL MESSAGE
+    // ===========
+    addMessage("wizard", "I am here. Tap a button or ask me a question.");
+  </script>
 </body>
 </html>
