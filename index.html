@@ -7,8 +7,8 @@
 
   <style>
     :root{
-      --blue:#2926EF;   /* SeniorLimo Bright Blue */
-      --gold:#C28B00;   /* Gold */
+      --blue:#2926EF;
+      --gold:#C28B00;
       --bg:#060A12;
       --panel: rgba(10,14,24,.78);
       --stroke: rgba(234,240,255,.18);
@@ -16,197 +16,149 @@
       --muted: rgba(234,240,255,.75);
       --shadow: rgba(0,0,0,.55);
     }
-
     *{ box-sizing:border-box; }
-    html, body{ height:100%; }
+    html,body{ height:100%; }
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
       background:
         radial-gradient(1200px 600px at 30% 10%, rgba(41,38,239,.25), transparent 60%),
-        radial-gradient(900px 500px at 70% 20%, rgba(194,139,0,.18), transparent 60%),
-        radial-gradient(1200px 800px at 50% 110%, rgba(0,0,0,.75), transparent 60%),
-        var(--bg);
-      padding: 28px 18px 36px;
+        radial-gradient(900px 500px at 80% 30%, rgba(194,139,0,.16), transparent 55%),
+        linear-gradient(180deg, #070A15, #04060D 70%);
     }
-
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-    }
-
-    .title{
-      text-align:center;
-      font-weight: 800;
-      letter-spacing: .5px;
-      font-size: clamp(28px, 4vw, 44px);
-      margin: 6px 0 2px;
-    }
-    .subtitle{
-      text-align:center;
-      color: var(--muted);
-      margin: 0 0 18px;
-      font-size: 14px;
-    }
+    .wrap{ max-width:1100px; margin:0 auto; padding:28px 18px 40px; }
+    .hero{ text-align:center; margin:18px 0 18px; }
+    .title{ font-size:56px; line-height:1.05; letter-spacing:.5px; margin:0; font-weight:800; }
+    .subtitle{ margin:10px 0 0; color:var(--muted); font-size:16px; }
 
     .panel{
-      background: linear-gradient(180deg, rgba(20,24,40,.72), rgba(10,14,24,.72));
-      border: 1px solid var(--stroke);
-      border-radius: 18px;
-      box-shadow: 0 20px 60px var(--shadow);
-      padding: 18px;
+      margin:22px auto 0;
+      padding:18px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(10,14,24,.86), rgba(10,14,24,.58));
+      border:1px solid var(--stroke);
+      box-shadow: 0 18px 60px var(--shadow);
     }
 
-    .btnRow{
-      display:flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 14px;
+    .topRow{
+      display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:14px;
     }
-
-    .pillBtn{
-      appearance:none;
-      border: 2px solid rgba(194,139,0,.65);
-      background: linear-gradient(180deg, rgba(41,38,239,.25), rgba(41,38,239,.08));
-      color: var(--text);
-      padding: 14px 16px;
-      border-radius: 14px;
-      min-width: min(420px, 100%);
-      font-weight: 700;
-      letter-spacing: .2px;
-      cursor: pointer;
-      transition: transform .08s ease, filter .08s ease;
+    .bigBtn{
+      min-width:280px; max-width:520px; flex:1 1 360px;
+      padding:14px 16px; border-radius:14px;
+      border:1px solid rgba(194,139,0,.65);
+      background: linear-gradient(180deg, rgba(41,38,239,.55), rgba(41,38,239,.22));
+      color:var(--text);
+      font-weight:800;
+      letter-spacing:.2px;
+      font-size:18px;
+      cursor:pointer;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
     }
-    .pillBtn:active{ transform: scale(.99); }
-    .pillBtn:hover{ filter: brightness(1.05); }
+    .bigBtn:active{ transform: translateY(1px); }
 
     .statusRow{
-      display:flex;
-      gap: 12px;
-      align-items:center;
-      justify-content:flex-start;
-      margin: 10px 0 12px;
-      flex-wrap: wrap;
+      display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+      margin:10px 0 12px; justify-content:flex-start;
     }
-
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid var(--stroke);
-      color: var(--muted);
-      font-weight: 700;
+      display:inline-flex; gap:10px; align-items:center;
+      padding:10px 12px; border-radius:14px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      color:var(--muted); font-weight:700;
     }
-
     .toggle{
-      display:inline-flex;
-      align-items:center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid var(--stroke);
-      user-select:none;
+      display:inline-flex; gap:10px; align-items:center;
+      padding:10px 12px; border-radius:14px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      color:var(--muted); user-select:none;
     }
-    .toggle input{
-      width: 18px;
-      height: 18px;
-      accent-color: var(--blue);
-    }
-    .toggle span{ color: var(--muted); font-weight: 700; }
+    .toggle input{ transform: scale(1.1); }
 
     .chatBox{
-      border: 1px solid var(--stroke);
+      border-radius:16px; padding:14px;
+      border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.18);
-      border-radius: 14px;
-      padding: 14px;
-      min-height: 260px;
-      max-height: 420px;
+      min-height:240px; max-height:460px;
       overflow:auto;
-      line-height: 1.45;
     }
 
-    .msg{
-      margin: 10px 0;
-      white-space: pre-wrap;
-    }
-    .who{
-      font-weight: 900;
-      margin-right: 6px;
-    }
-    .wizard .who{ color: rgba(234,240,255,.95); }
-    .user .who{ color: rgba(234,240,255,.75); }
+    .msg{ margin:10px 0; line-height:1.55; font-size:16px; }
+    .who{ font-weight:900; margin-right:6px; }
+    .who.wizard{ color:#FFFFFF; }
+    .who.you{ color:rgba(234,240,255,.95); }
 
-    .inputRow{
-      display:flex;
-      gap: 10px;
-      margin-top: 12px;
+    .divider{
+      margin:14px 0;
+      border-top:1px solid rgba(234,240,255,.12);
+      opacity:.9;
     }
-    .inputRow input{
-      flex:1;
-      padding: 14px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--stroke);
-      background: rgba(0,0,0,.22);
-      color: var(--text);
-      outline: none;
-      font-size: 16px;
+
+    .composer{
+      margin-top:14px; display:flex; gap:10px; align-items:center;
     }
-    .inputRow button{
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(41,38,239,.55);
-      background: rgba(41,38,239,.20);
-      color: var(--text);
-      font-weight: 800;
-      cursor: pointer;
+    .composer input{
+      flex:1; padding:14px 14px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      outline:none;
+      font-size:16px;
     }
-    .inputRow button:active{ transform: scale(.99); }
+    .composer button{
+      padding:14px 16px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:800;
+      cursor:pointer;
+      min-width:96px;
+    }
+    .composer button:disabled{ opacity:.45; cursor:not-allowed; }
 
     .footer{
       text-align:center;
-      color: rgba(234,240,255,.55);
-      margin-top: 14px;
-      font-size: 12px;
-    }
-
-    @media (max-width: 520px){
-      .pillBtn{ min-width: 100%; }
-      .inputRow{ flex-direction: column; }
-      .inputRow button{ width: 100%; }
+      color:rgba(234,240,255,.45);
+      font-size:13px;
+      margin-top:16px;
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <div class="title">MW AI Concierge</div>
-    <div class="subtitle">Powered by Ability3Media</div>
+    <div class="hero">
+      <h1 class="title">MW AI Concierge</h1>
+      <div class="subtitle">Powered by Ability3Media</div>
+    </div>
 
     <div class="panel">
-      <div class="btnRow">
-        <button class="pillBtn" id="btnWellness">Freedom Wellness+ Perks</button>
-        <button class="pillBtn" id="btnEcosystem">SeniorLimo Ecosystem</button>
+      <div class="topRow">
+        <button class="bigBtn" id="btnFreedom">Freedom Wellness+ Perks</button>
+        <button class="bigBtn" id="btnEco">SeniorLimo Ecosystem</button>
       </div>
 
       <div class="statusRow">
-        <div class="badge" id="statusBadge"><strong>Wizard:</strong> Ready.</div>
+        <div class="badge"><strong>Wizard:</strong>&nbsp;<span id="statusText">Ready.</span></div>
 
-        <label class="toggle">
+        <label class="toggle" title="When ON, the Wizard will read answers out loud.">
           <input type="checkbox" id="voiceToggle" />
-          <span>Voice</span>
+          <span><strong>Voice</strong></span>
+        </label>
+
+        <label class="toggle" title="Slower, softer voice for seniors.">
+          <input type="checkbox" id="softToggle" checked />
+          <span><strong>Soft Voice</strong></span>
         </label>
       </div>
 
-      <div class="chatBox" id="chat"></div>
+      <div class="chatBox" id="chatBox" aria-live="polite"></div>
 
-      <div class="inputRow">
-        <input id="userInput" type="text" placeholder="Tap a button or ask me a question…" />
+      <div class="composer">
+        <input id="userInput" type="text" placeholder="Type a question…" autocomplete="off" />
         <button id="sendBtn">Send</button>
       </div>
 
@@ -215,23 +167,32 @@
   </div>
 
   <script>
-    // ===========
-    // 1) YOUR FULL BUTTON CONTENT (this is what got “deleted” before)
-    //    Replace the text below with the EXACT book wording when ready.
-    // ===========
+    // =========================
+    // CONTENT — THIS is where perks + ecosystem live
+    // Replace these blocks with the EXACT book copy anytime.
+    // =========================
+    const TOPICS = {
+      freedom: {
+        title: "Freedom Wellness+ Perks",
+        text:
+`Freedom Wellness+ is built around real member benefits — not just rides.
 
-    const CONTENT = {
-      wellness: `Freedom Wellness+ includes priority support, member perks, and community give-back.
+Member perks include:
+• Priority booking (members get priority over flat-rate riders)
+• Birthday breakfast perk
+• Access to the Gold Deals coupon network
+• Community give-back support (partnered nonprofits/churches)
+• Simple, senior-friendly experience (tap buttons, no tech stress)
 
-Key perks (replace with your exact book text):
-• Priority booking and faster support
-• Built for seniors — simple, consistent experience
-• Member-only perks and partner benefits
-• Community give-back support (nonprofits / churches)
-• Mobility-focused wellness and independence
+Important notes:
+• Membership is for one person (no family sharing)
+• Designed to keep seniors independent and supported — with real local value.`
+      },
 
-NOTE: If you want this to show the $299 price, add it exactly how you want here.`,
-      ecosystem: `SeniorLimo is a membership-based affiliate carpool ecosystem designed to support senior mobility, local businesses, and community wellness.
+      ecosystem: {
+        title: "SeniorLimo Ecosystem",
+        text:
+`SeniorLimo is a membership-based affiliate carpool ecosystem designed to support senior mobility, local businesses, and community wellness.
 
 The ecosystem connects:
 • Seniors who need reliable rides and meaningful member perks
@@ -239,112 +200,152 @@ The ecosystem connects:
 • Nonprofits and churches supported through community give-back
 
 Together, these partners create a community-supported system that helps seniors stay independent while strengthening the local economy.`
+      }
     };
 
-    // ===========
-    // 2) CHAT RENDERING
-    // ===========
-    const chatEl = document.getElementById("chat");
-    const inputEl = document.getElementById("userInput");
+    // =========================
+    // UI HELPERS
+    // =========================
+    const chatBox = document.getElementById("chatBox");
+    const userInput = document.getElementById("userInput");
     const sendBtn = document.getElementById("sendBtn");
+    const statusText = document.getElementById("statusText");
     const voiceToggle = document.getElementById("voiceToggle");
+    const softToggle = document.getElementById("softToggle");
 
-    function addMessage(role, text){
+    function addDivider() {
       const div = document.createElement("div");
-      div.className = "msg " + (role === "wizard" ? "wizard" : "user");
-      div.innerHTML = `<span class="who">${role === "wizard" ? "Wizard:" : "You:"}</span>${escapeHtml(text)}`;
-      chatEl.appendChild(div);
-      chatEl.scrollTop = chatEl.scrollHeight;
-
-      if (role === "wizard") speakIfEnabled(text);
+      div.className = "divider";
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
+    function addMsg(who, text) {
+      const row = document.createElement("div");
+      row.className = "msg";
+
+      const label = document.createElement("span");
+      label.className = "who " + (who === "Wizard" ? "wizard" : "you");
+      label.textContent = who + ":";
+
+      const body = document.createElement("span");
+      body.textContent = " " + text;
+
+      row.appendChild(label);
+      row.appendChild(body);
+      chatBox.appendChild(row);
+
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // ===========
-    // 3) VOICE (SpeechSynthesis)
-    // ===========
-    function speakIfEnabled(text){
+    // =========================
+    // VOICE — make it less robotic (within iOS limits)
+    // =========================
+    function stopVoice() {
+      try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch(e){}
+    }
+
+    function cleanForSpeech(text) {
+      // Make bullets speak better + add pauses
+      return (text || "")
+        .replaceAll("•", "")
+        .replaceAll("—", ", ")
+        .replaceAll("\n\n", ".\n")
+        .replaceAll("\n", ". ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function pickBestVoice() {
+      if (!("speechSynthesis" in window)) return null;
+      const voices = window.speechSynthesis.getVoices ? window.speechSynthesis.getVoices() : [];
+      if (!voices.length) return null;
+
+      // Try to pick a better iOS voice if available
+      const preferred =
+        voices.find(v => /Siri/i.test(v.name) && /en/i.test(v.lang)) ||
+        voices.find(v => /Enhanced|Premium/i.test(v.name) && /en/i.test(v.lang)) ||
+        voices.find(v => /en-US/i.test(v.lang)) ||
+        voices.find(v => /en/i.test(v.lang));
+
+      return preferred || null;
+    }
+
+    function speak(text) {
       if (!voiceToggle.checked) return;
-      if (typeof window === "undefined") return;
       if (!("speechSynthesis" in window)) return;
 
-      // Stop any current speaking, then speak the latest
-      window.speechSynthesis.cancel();
+      stopVoice();
 
-      const utter = new SpeechSynthesisUtterance(text);
+      const spoken = cleanForSpeech(text);
+      const u = new SpeechSynthesisUtterance(spoken);
 
-      // Try to pick a smoother voice (Safari iOS varies a lot)
-      const voices = window.speechSynthesis.getVoices() || [];
-      const preferred =
-        voices.find(v => /Siri|Enhanced|Premium/i.test(v.name) && /en/i.test(v.lang)) ||
-        voices.find(v => /en/i.test(v.lang)) ||
-        voices[0];
+      if (softToggle.checked) {
+        u.rate = 0.88;   // slower = less robotic
+        u.pitch = 0.92;  // slightly lower
+        u.volume = 1.0;
+      } else {
+        u.rate = 0.98;
+        u.pitch = 1.0;
+        u.volume = 1.0;
+      }
 
-      if (preferred) utter.voice = preferred;
+      const v = pickBestVoice();
+      if (v) u.voice = v;
 
-      // Tuning (you can adjust these)
-      utter.rate = 0.95;   // slower = smoother
-      utter.pitch = 0.95;  // slightly lower = “less chipmunk”
-      utter.volume = 1.0;
-
-      window.speechSynthesis.speak(utter);
+      window.speechSynthesis.speak(u);
     }
 
-    // iOS needs this sometimes to load voices
-    window.speechSynthesis?.getVoices?.();
-
-    // ===========
-    // 4) BUTTON ACTIONS (this is the exact fix you asked for)
-    // ===========
-    document.getElementById("btnWellness").addEventListener("click", () => {
-      addMessage("wizard", CONTENT.wellness);
-    });
-
-    document.getElementById("btnEcosystem").addEventListener("click", () => {
-      addMessage("wizard", CONTENT.ecosystem);
-    });
-
-    // ===========
-    // 5) TYPED QUESTIONS (simple router)
-    // ===========
-    function routeQuestion(q){
-      const s = q.toLowerCase();
-
-      // very basic routing — we can expand later
-      if (s.includes("freedom") || s.includes("wellness") || s.includes("perks")) return CONTENT.wellness;
-      if (s.includes("ecosystem") || s.includes("seniorlimo")) return CONTENT.ecosystem;
-
-      return `I can help with Freedom Wellness+ and the SeniorLimo Ecosystem right now.
-Try tapping a button, or ask:
-• “What is Freedom Wellness+?”
-• “What is the SeniorLimo Ecosystem?”`;
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.onvoiceschanged = () => {};
     }
 
-    function send(){
-      const text = (inputEl.value || "").trim();
-      if (!text) return;
-      addMessage("user", text);
-      inputEl.value = "";
+    // =========================
+    // ROUTING — typed questions go to correct topic
+    // =========================
+    function routeQuestion(q) {
+      const s = (q || "").toLowerCase();
+      if (s.includes("freedom") || s.includes("wellness") || s.includes("perk")) return TOPICS.freedom;
+      if (s.includes("ecosystem") || s.includes("seniorlimo")) return TOPICS.ecosystem;
 
-      const reply = routeQuestion(text);
-      addMessage("wizard", reply);
+      return {
+        title: "Quick Answer",
+        text: "Tap a button for the full overview, or ask: “What are the Freedom Wellness+ perks?” or “What is the SeniorLimo ecosystem?”"
+      };
+    }
+
+    // =========================
+    // ACTIONS
+    // =========================
+    function wizardRespondBlock(title, text) {
+      addDivider();
+      addMsg("Wizard", title);
+      addMsg("Wizard", text);
+      speak(title + ". " + text);
+      statusText.textContent = "Ready.";
+    }
+
+    function handleTopic(topicObj) {
+      statusText.textContent = "Answering…";
+      wizardRespondBlock(topicObj.title, topicObj.text);
+    }
+
+    document.getElementById("btnFreedom").addEventListener("click", () => handleTopic(TOPICS.freedom));
+    document.getElementById("btnEco").addEventListener("click", () => handleTopic(TOPICS.ecosystem));
+
+    function send() {
+      const q = (userInput.value || "").trim();
+      if (!q) return;
+      addMsg("You", q);
+      userInput.value = "";
+      handleTopic(routeQuestion(q));
     }
 
     sendBtn.addEventListener("click", send);
-    inputEl.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") send();
-    });
+    userInput.addEventListener("keydown", (e) => { if (e.key === "Enter") send(); });
 
-    // ===========
-    // 6) INITIAL MESSAGE
-    // ===========
-    addMessage("wizard", "I am here. Tap a button or ask me a question.");
+    // Initial greeting
+    addMsg("Wizard", "I am here. Tap a button or ask me a question.");
   </script>
 </body>
 </html>
