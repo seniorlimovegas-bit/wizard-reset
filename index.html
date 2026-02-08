@@ -187,7 +187,7 @@
   <div class="wrap">
     <div class="hero">
       <h1>MW AI Concierge</h1>
-      <div class="sub">Powered by Ability3Media</div>
+      <div class="sub">Powered by Ability3Media — v1000</div>
     </div>
 
     <div class="panel">
@@ -212,16 +212,16 @@
         <button class="send" id="sendBtn">Send</button>
       </div>
 
-      <footer>© 2026 Ability3Media · All Rights Reserved</footer>
+      <footer>© 2026 Ability3Media · All Rights Reserved · v1000</footer>
     </div>
   </div>
 
   <script>
     /*
-      IMPORTANT (internal-only):
+      RULES:
       - Layout/colors must not change.
-      - Language is stored in CONTENT (single source of truth).
-      - Voice reads ONLY the wizard answer text that is displayed (no improvising).
+      - Language lives ONLY in CONTENT (single source of truth).
+      - Voice reads ONLY what is displayed. No improvising.
     */
 
     const chatEl = document.getElementById("chat");
@@ -232,12 +232,8 @@
     const btnPerks = document.getElementById("btnPerks");
     const btnEco = document.getElementById("btnEco");
 
-    // Start voice OFF by default (so it never surprises you)
     voiceToggle.checked = false;
 
-    // ==========================================
-    // LANGUAGE (SINGLE SOURCE OF TRUTH)
-    // ==========================================
     const CONTENT = {
       perks: {
         label: "Freedom Pass Wellness+ Perks",
@@ -299,9 +295,6 @@ Businesses stop chasing customers — SeniorLimo delivers them.`
       }
     };
 
-    // ==========================================
-    // CHAT HELPERS
-    // ==========================================
     function appendMessage(role, text){
       const row = document.createElement("div");
       row.className = "msg";
@@ -319,25 +312,19 @@ Businesses stop chasing customers — SeniorLimo delivers them.`
       chatEl.scrollTop = chatEl.scrollHeight;
     }
 
-    // ==========================================
-    // VOICE (speech synthesis) — READ-ALOUD ONLY
-    // ==========================================
     function speak(text){
       try{
         if(!voiceToggle.checked) return;
         if(!("speechSynthesis" in window)) return;
 
         const synth = window.speechSynthesis;
-        synth.cancel(); // stop anything currently speaking
+        synth.cancel();
 
         const u = new SpeechSynthesisUtterance(text);
-
-        // Senior-friendly pacing
         u.rate = 0.92;
         u.pitch = 1.0;
         u.volume = 1.0;
 
-        // Try to pick a smoother English voice if available
         const voices = synth.getVoices ? synth.getVoices() : [];
         const preferred =
           voices.find(v => /en-US/i.test(v.lang) && /Siri|Daniel|Samantha|Karen|Google/i.test(v.name)) ||
@@ -346,32 +333,22 @@ Businesses stop chasing customers — SeniorLimo delivers them.`
           voices[0];
 
         if(preferred) u.voice = preferred;
-
         synth.speak(u);
       }catch(e){
-        // If voice fails, do nothing—never break the app.
+        // never break the app
       }
     }
 
-    // Some browsers load voices async; this primes the list
     if("speechSynthesis" in window){
       window.speechSynthesis.onvoiceschanged = () => {};
     }
 
-    // ==========================================
-    // WIZARD ANSWER PIPELINE (NO AI)
-    // - Always deterministic
-    // - Voice reads exactly what we display
-    // ==========================================
     function handleWizardAnswer(title, body){
       const answerText = `${title}\n\n${body}`;
       appendMessage("wizard", answerText);
       speak(answerText);
     }
 
-    // ==========================================
-    // BUTTONS
-    // ==========================================
     btnPerks.addEventListener("click", () => {
       appendMessage("you", CONTENT.perks.label);
       handleWizardAnswer(CONTENT.perks.title, CONTENT.perks.body);
@@ -382,9 +359,6 @@ Businesses stop chasing customers — SeniorLimo delivers them.`
       handleWizardAnswer(CONTENT.ecosystem.title, CONTENT.ecosystem.body);
     });
 
-    // ==========================================
-    // TEXT INPUT (basic routing for now)
-    // ==========================================
     function handleSend(){
       const q = (inputEl.value || "").trim();
       if(!q) return;
@@ -394,7 +368,7 @@ Businesses stop chasing customers — SeniorLimo delivers them.`
 
       const lower = q.toLowerCase();
 
-      if(lower.includes("perk") || lower.includes("wellness") || lower.includes("freedom") || lower.includes("299") || lower.includes("rides")){
+      if(lower.includes("perk") || lower.includes("wellness") || lower.includes("freedom") || lower.includes("299") || lower.includes("ride")){
         handleWizardAnswer(CONTENT.perks.title, CONTENT.perks.body);
         return;
       }
@@ -412,9 +386,6 @@ Businesses stop chasing customers — SeniorLimo delivers them.`
       if(e.key === "Enter") handleSend();
     });
 
-    // ==========================================
-    // INITIAL MESSAGE
-    // ==========================================
     appendMessage("wizard", "I am here. Tap a button or ask me a question.");
   </script>
 </body>
