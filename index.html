@@ -192,7 +192,7 @@
 
     <div class="panel">
       <div class="top-actions">
-        <button class="btn" id="btnPerks">Freedom Wellness+ Perks</button>
+        <button class="btn" id="btnPerks">Freedom Pass Wellness+ Perks</button>
         <button class="btn" id="btnEco">SeniorLimo Ecosystem</button>
       </div>
 
@@ -219,9 +219,9 @@
   <script>
     /*
       IMPORTANT (internal-only):
-      - Keep answers professional. No “replace this” notes inside the answer strings.
-      - If you want the longer, exact book text, paste it into ANSWERS.perks / ANSWERS.ecosystem.
-      - Voice speaks ONLY the final wizard answer text (no labels, no internal notes).
+      - Layout/colors must not change.
+      - Language is stored in CONTENT (single source of truth).
+      - Voice reads ONLY the wizard answer text that is displayed (no improvising).
     */
 
     const chatEl = document.getElementById("chat");
@@ -235,32 +235,73 @@
     // Start voice OFF by default (so it never surprises you)
     voiceToggle.checked = false;
 
-    // ====== CLEAN, CUSTOMER-FACING ANSWERS ONLY ======
-    // Replace these with your exact SeniorLimo book text when ready.
-    const ANSWERS = {
-      perks:
-`Freedom Wellness+ is a member program designed to reward consistent riders with real benefits and priority support.
+    // ==========================================
+    // LANGUAGE (SINGLE SOURCE OF TRUTH)
+    // ==========================================
+    const CONTENT = {
+      perks: {
+        label: "Freedom Pass Wellness+ Perks",
+        title: "Freedom Pass Wellness+™ — Core Perks",
+        body:
+`Freedom Pass Wellness+™ — $299 per month
 
-Member perks can include:
-• Priority booking and faster support
-• Member-only benefits and partner perks
-• Community give-back support (nonprofits and churches)
-• A simple, consistent experience built for seniors
+• 20 one-way rides included
+• Priority booking & scheduling
+• Professional concierge support (no tipping required)
+• Spouse ride-along eligible
+• +1 guest ride once per week
+• $25 Wellness Credit for each referred Freedom Pass Wellness+™ member
+• Birthday breakfast for two (member + spouse)
+• Gold Deals™ action coupons (15%–50% value)
+• Emergency contact & wellness safeguard
 
-If you want, I can also explain how memberships work and what to expect when booking.`,
+One platform membership.
+No flat-fee ride model.`
+      },
 
-      ecosystem:
-`SeniorLimo is a membership-based affiliate carpool ecosystem designed to support senior mobility, local businesses, and community wellness.
+      ecosystem: {
+        label: "SeniorLimo Ecosystem",
+        title: "The SeniorLimo Ecosystem — Business Benefits",
+        body:
+`The SeniorLimo Ecosystem connects active seniors with local businesses through transportation, concierge guidance, and Gold Deals™ Action Coupons designed to drive real behavior.
 
-The ecosystem connects:
-• Seniors who need reliable rides and meaningful member perks
-• Local businesses that provide value through Gold Deals
-• Nonprofits and churches supported through community give-back
+Gold Deals™ are NOT weak discounts.
+Minimum value range: 15%–50% (depending on the business and item).
 
-Together, these partners help seniors stay independent while strengthening the local economy.`
+These are strategic “blowout” offers using:
+• slow days
+• unused capacity
+• excess inventory
+• specials businesses already want to move
+
+Examples:
+• Restaurants: 30% off slow-time lunch • second entrée 50% off • free dessert with meal
+• Salons/Services: 25%–50% off slow-day appointments • bundle blowouts on unused slots
+• Retail: 30%–50% off discontinued/seasonal items • end-of-season blowouts
+• Markets: overstock bundle specials • senior-only weekly deals
+
+Why businesses love it:
+• consistent senior foot traffic
+• repeat customers (seniors are loyal)
+• concierge reminders that drive action
+• community trust and goodwill
+
+Bottom line:
+Businesses stop chasing customers — SeniorLimo delivers them.`
+      },
+
+      fallback: {
+        title: "Quick Help",
+        body:
+`For now, tap one of the buttons above, or ask about:
+• Freedom Pass Wellness+ perks
+• The SeniorLimo ecosystem for businesses`
+      }
     };
 
-    // ====== CHAT HELPERS ======
+    // ==========================================
+    // CHAT HELPERS
+    // ==========================================
     function appendMessage(role, text){
       const row = document.createElement("div");
       row.className = "msg";
@@ -278,7 +319,9 @@ Together, these partners help seniors stay independent while strengthening the l
       chatEl.scrollTop = chatEl.scrollHeight;
     }
 
-    // ====== VOICE (speech synthesis) ======
+    // ==========================================
+    // VOICE (speech synthesis) — READ-ALOUD ONLY
+    // ==========================================
     function speak(text){
       try{
         if(!voiceToggle.checked) return;
@@ -289,8 +332,7 @@ Together, these partners help seniors stay independent while strengthening the l
 
         const u = new SpeechSynthesisUtterance(text);
 
-        // Make it less “robotic” by slowing slightly.
-        // (Different devices/voices vary a lot, but this helps.)
+        // Senior-friendly pacing
         u.rate = 0.92;
         u.pitch = 1.0;
         u.volume = 1.0;
@@ -307,7 +349,7 @@ Together, these partners help seniors stay independent while strengthening the l
 
         synth.speak(u);
       }catch(e){
-        // If voice fails, we do nothing—never break the app.
+        // If voice fails, do nothing—never break the app.
       }
     }
 
@@ -316,23 +358,33 @@ Together, these partners help seniors stay independent while strengthening the l
       window.speechSynthesis.onvoiceschanged = () => {};
     }
 
-    function handleWizardAnswer(answerText){
+    // ==========================================
+    // WIZARD ANSWER PIPELINE (NO AI)
+    // - Always deterministic
+    // - Voice reads exactly what we display
+    // ==========================================
+    function handleWizardAnswer(title, body){
+      const answerText = `${title}\n\n${body}`;
       appendMessage("wizard", answerText);
       speak(answerText);
     }
 
-    // ====== BUTTONS ======
+    // ==========================================
+    // BUTTONS
+    // ==========================================
     btnPerks.addEventListener("click", () => {
-      appendMessage("you", "Freedom Wellness+ Perks");
-      handleWizardAnswer(ANSWERS.perks);
+      appendMessage("you", CONTENT.perks.label);
+      handleWizardAnswer(CONTENT.perks.title, CONTENT.perks.body);
     });
 
     btnEco.addEventListener("click", () => {
-      appendMessage("you", "SeniorLimo Ecosystem");
-      handleWizardAnswer(ANSWERS.ecosystem);
+      appendMessage("you", CONTENT.ecosystem.label);
+      handleWizardAnswer(CONTENT.ecosystem.title, CONTENT.ecosystem.body);
     });
 
-    // ====== TEXT INPUT ======
+    // ==========================================
+    // TEXT INPUT (basic routing for now)
+    // ==========================================
     function handleSend(){
       const q = (inputEl.value || "").trim();
       if(!q) return;
@@ -340,21 +392,19 @@ Together, these partners help seniors stay independent while strengthening the l
       appendMessage("you", q);
       inputEl.value = "";
 
-      // Simple routing (basic for now). You can expand later.
       const lower = q.toLowerCase();
 
-      if(lower.includes("perk") || lower.includes("freedom")){
-        handleWizardAnswer(ANSWERS.perks);
-        return;
-      }
-      if(lower.includes("ecosystem") || lower.includes("seniorlimo")){
-        handleWizardAnswer(ANSWERS.ecosystem);
+      if(lower.includes("perk") || lower.includes("wellness") || lower.includes("freedom") || lower.includes("299") || lower.includes("rides")){
+        handleWizardAnswer(CONTENT.perks.title, CONTENT.perks.body);
         return;
       }
 
-      handleWizardAnswer(
-`I can help with that. For now, tap one of the buttons above, or ask about Freedom Wellness+ perks or the SeniorLimo ecosystem.`
-      );
+      if(lower.includes("ecosystem") || lower.includes("business") || lower.includes("gold deal") || lower.includes("coupon") || lower.includes("seniorlimo")){
+        handleWizardAnswer(CONTENT.ecosystem.title, CONTENT.ecosystem.body);
+        return;
+      }
+
+      handleWizardAnswer(CONTENT.fallback.title, CONTENT.fallback.body);
     }
 
     sendBtn.addEventListener("click", handleSend);
@@ -362,7 +412,9 @@ Together, these partners help seniors stay independent while strengthening the l
       if(e.key === "Enter") handleSend();
     });
 
-    // ====== INITIAL MESSAGE ======
+    // ==========================================
+    // INITIAL MESSAGE
+    // ==========================================
     appendMessage("wizard", "I am here. Tap a button or ask me a question.");
   </script>
 </body>
